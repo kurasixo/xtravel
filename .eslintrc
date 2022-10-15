@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "env": {
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": ["./tsconfig.json"] },
+  "plugins": [
+    "@typescript-eslint",
+    "import"
+  ],
+  "ignorePatterns": ["src/**/*.test.ts"],
+  "rules": {
+    "semi": "error",
+    "quotes": [2, "single"],
+    "eol-last": "error",
+    "no-trailing-spaces": "error",
+
+    "import/newline-after-import": ["error", { "count": 2 }],
+
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-empty-function": "off"
+  }
+}
