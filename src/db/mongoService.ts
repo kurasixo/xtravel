@@ -15,10 +15,7 @@ export const getFromMongo = (dbName: string, collectionName: string) => {
 
     return allItems
       .toArray()
-      .then((items) => {
-        // disconnectMongo(mongoClient);
-        return items;
-      });
+      .then((items) => disconnectMongo()?.then(() => items));
   });
 };
 

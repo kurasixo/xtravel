@@ -3,9 +3,10 @@ import { getSite } from '../../utils/network';
 import type { FnPromiseType, Normalizer, ParserConfig, Processors, Selectors } from '../../types';
 
 
+// eslint-disable-next-line
 export type AdditionalArgsType = any[];
 
-export type SimpleParseOperationConfig<E, O> = [
+export type ParseOperationConfig<E, O> = [
   ParserConfig,
   Selectors,
   Processors<E>,
@@ -15,7 +16,7 @@ export type SimpleParseOperationConfig<E, O> = [
   AdditionalArgsType,
 ];
 
-export const simpleParser = <E, O>(
+export const parser = <E, O>(
   parserConfig: ParserConfig,
   selectors: Selectors,
   processors: Processors<E>,
@@ -43,7 +44,7 @@ export const simpleParser = <E, O>(
     .then((rawData) => normalizer(rawData, additionalArgs));
 };
 
-export const simpleParserWrapper = <E, O>(
+export const parserWrapper = <E, O>(
   parserConfig: ParserConfig,
   selectors: Selectors,
   processors: Processors<E>,
@@ -52,7 +53,7 @@ export const simpleParserWrapper = <E, O>(
   getSiteFn: FnPromiseType<string> = getSite,
   additionalArgs: AdditionalArgsType = [],
 ) => {
-  const simpleParserWrapped = () => simpleParser(
+  const parserWrapped = () => parser(
     parserConfig,
     selectors,
     processors,
@@ -63,15 +64,15 @@ export const simpleParserWrapper = <E, O>(
   );
 
   if (parserConfig.parserName) {
-    Object.defineProperty(simpleParserWrapped, 'name', {
-      value: `simpleParserFor${parserConfig.parserName}`,
+    Object.defineProperty(parserWrapped, 'name', {
+      value: `parserFor${parserConfig.parserName}`,
       writable: false,
       enumerable: false,
       configurable: true,
     });
 
-    return simpleParserWrapped;
+    return parserWrapped;
   }
 
-  return simpleParserWrapped;
+  return parserWrapped;
 };

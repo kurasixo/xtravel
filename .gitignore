@@ -1,4 +1,8 @@
+.DS_Store
+
 node_modules/
+demo/
+src/parsers/recordings/*.mp4
 build/
 
 .production.env

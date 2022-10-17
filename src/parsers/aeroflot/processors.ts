@@ -52,8 +52,7 @@ export const aeroflotProcessors: Processors<RawRoute> = {
 
     const price = rootFlight.find(innerSelectors.flightPriceSelector).text();
 
-    const flightsWithTransfers = Array
-      .from(flightsRouteArray)
+    const flightsWithTransfers = flightsRouteArray
       .reduce((acc: { flights: Flight[], transfers: RawTransfer[] }, el) => {
         const elementAsCheerio = $(el);
         const flight = getFlightAsObject(elementAsCheerio);

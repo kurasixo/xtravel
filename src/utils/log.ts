@@ -56,6 +56,12 @@ export const utilsLog: typeof log = (message, ...rest) => {
   }
 };
 
+export const apiLog: typeof log = (message, ...rest) => {
+  if (isLogEnabled) {
+    log(`${colors.FgMagenta}%s${specialChar}`, `Utils saying: ${message}`, ...rest);
+  }
+};
+
 export const errorLog: typeof log = (message, ...rest) => {
   if (isLogEnabled) {
     log(`${colors.FgRed}%s${specialChar}`, `Error: ${message}`, ...rest);

@@ -1,8 +1,8 @@
-import { aeroflotConfig as config } from './config';
-import { aeroflotNormalizer as normalizer } from './normalizer';
-import { aeroflotProcessors as processors } from './processors';
-import { aeroflotSelectors as selectors } from './selectors';
-import { aeroflotSteps as steps } from './steps';
+import { s7Config as config } from './config';
+import { s7Normalizer as normalizer } from './normalizer';
+import { s7Processors as processors } from './processors';
+import { s7Selectors as selectors } from './selectors';
+import { s7Steps as steps } from './steps';
 
 import { getSiteHeadlessly } from '../../utils/headlessNetwork';
 import { AdditionalArgsType, ParseOperationConfig } from '../parser';
@@ -11,7 +11,7 @@ import type { RawRoute, RouteByName } from '../../types';
 
 type ParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
-export const getAeroflotParserConfig = (dataForSteps: AdditionalArgsType) => {
+export const gets7ParserConfig = (dataForSteps: AdditionalArgsType) => {
   const getStepsToUse = steps.map((stepFn, index) => {
     return {
       stepFn,
@@ -19,7 +19,7 @@ export const getAeroflotParserConfig = (dataForSteps: AdditionalArgsType) => {
     };
   });
 
-  const aeroflotParserConfig: ParserConfig = [
+  const s7ParserConfig: ParserConfig = [
     config,
     selectors,
     processors,
@@ -29,5 +29,5 @@ export const getAeroflotParserConfig = (dataForSteps: AdditionalArgsType) => {
     getStepsToUse,
   ];
 
-  return aeroflotParserConfig;
+  return s7ParserConfig;
 };

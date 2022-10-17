@@ -1,5 +1,5 @@
-import type { Price, RawRoute, Route, RouteByName } from '../../types';
-import { AdditionalArgsType } from '../simpleParser';
+import type { Price, RawPrice, RawRoute, Route, RouteByName } from '../../types';
+import { AdditionalArgsType } from '../parser';
 
 
 const normalizeTime = (time: string, separator = ':') => {
@@ -38,8 +38,8 @@ export const aeroflotNormalizer = (
 ): RouteByName[] => {
   const routes: Route[] = rawRoutes.map((rawRoute) => {
     const normalizedPrice: Price = {
-      value: normalizePrice(rawRoute.price.value),
-      currency: rawRoute.price.currency,
+      value: normalizePrice((rawRoute.price as RawPrice).value),
+      currency: (rawRoute.price as RawPrice).currency,
     };
 
     const normalizedTransfers = rawRoute.transfers.map((rawTransfer) => {

@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 import { utilsLog } from './log';
 import { readFileSync, writeFileSync } from 'node:fs';
 import type { FnPromiseType } from '../types';
+import { normalizeHtmlContent } from './normalizeHtmlContent';
 
 
 type PromiseStorageValue = {
@@ -10,7 +11,7 @@ type PromiseStorageValue = {
 }
 
 
-const TWELWE_HOURS = 2 * 12 * 60 * 60 * 1000;
+const TWENTY_FOUR_HOURS = 2 * 12 * 60 * 60 * 1000;
 
 const resolveCacheJson = (name: string) => {
   return resolve(__dirname, `../../${name}`);
@@ -28,11 +29,11 @@ const objectToString = <T>(object: T): string => {
   return JSON.stringify(object);
 };
 
-export const memoNetworkWithCache = <T>(
-  fnPromise: FnPromiseType<T>,
+export const memoNetworkWithCache = (
+  fnPromise: FnPromiseType<string>,
 
   cacheName = 'simpleCache.json',
-  refreshTime = TWELWE_HOURS,
+  refreshTime = TWENTY_FOUR_HOURS,
 ) => {
   const rawFile = readFileSync(
     resolveCacheJson(cacheName),
@@ -46,18 +47,19 @@ export const memoNetworkWithCache = <T>(
 
     if (valueFromStorage && Date.now() - valueFromStorage.timestamp < refreshTime) {
       utilsLog(`using value from cache: ${cacheName}`);
-      return new Promise((resolvePromiseWith) => resolvePromiseWith(valueFromStorage.content as T));
+      return new Promise((resolvePromiseWith) => resolvePromiseWith(valueFromStorage.content as string));
     }
 
     return fnPromise(...args).then((response) => {
-      promiseStorage[hashedArgs] = { content: response, timestamp: Date.now() };
+      const newContent = normalizeHtmlContent(response);
+      promiseStorage[hashedArgs] = { content: newContent, timestamp: Date.now() };
       writeFileSync(
         resolveCacheJson(cacheName),
         objectToString(promiseStorage),
         { encoding: 'utf-8' },
       );
 
-      return response;
+      return newContent;
     });
   };
 

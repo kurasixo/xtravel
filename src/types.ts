@@ -1,12 +1,12 @@
 import type { Page } from 'puppeteer';
-import { AdditionalArgsType } from './parsers/simpleParser';
+import { AdditionalArgsType } from './parsers/parser';
 
 
 export type Site = string;
 export type Selector = string;
 
 
-export type StepFn = (page: Page, ...args: unknown[]) => Promise<void>;
+export type StepFn = (page: Page, ...args: unknown[]) => Promise<string | void>;
 export type FnPromiseType<T> = (...args: unknown[]) => Promise<T>;
 
 export type ParserConfig = {
@@ -17,10 +17,6 @@ export type ParserConfig = {
 export type Selectors = {
   content: Selector;
 };
-
-export type SelectorsHeadless = {
-  contentMany: Selector;
-}
 
 export type Processors<E> = {
   each?: (
@@ -57,12 +53,6 @@ export type VisaInfo = {
   visaPrice: Price | 'free';
 };
 
-export type FlightInfo = {
-  date: string,
-  time: number,
-  price: Price,
-}
-
 type Airport = {
   name: string;
   terminal: string;
@@ -74,7 +64,7 @@ export type Transfer = {
 }
 
 export type RawTransfer = {
-  transferTime: string | null;
+  transferTime: string;
   transferChange: string | null;
 }
 
@@ -91,13 +81,13 @@ export type Flight = {
 }
 
 export type RawRoute = {
-  price: RawPrice;
+  price: RawPrice | RawPrice[];
   transfers: RawTransfer[],
   flights: Flight[],
 }
 
 export type Route = {
-  price: Price;
+  price: Price | Price[];
   transfers: Transfer[],
   flights: Flight[],
 }

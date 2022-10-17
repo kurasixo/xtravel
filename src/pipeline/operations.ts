@@ -1,20 +1,20 @@
 import type { BaseMongoOperationConfig } from '../db/mongoService';
 import type { Document } from 'mongodb';
-import type { SimpleParseOperationConfig } from '../parsers/simpleParser';
+import type { ParseOperationConfig } from '../parsers/parser';
 
 import { createOperation } from './createOperation';
 import { putToMongo } from '../db/mongoService';
-import { simpleParserWrapper } from '../parsers/simpleParser';
+import { parserWrapper } from '../parsers/parser';
 
 
-export const getSimpleParseOperation = <C, R>() => {
-  type simpleParseArgs = SimpleParseOperationConfig<unknown, R>
+export const getParseOperation = <C, R>() => {
+  type simpleParseArgs = ParseOperationConfig<unknown, R>
 
-  const simpleParserWrapperInnerOp = ({ config }: { config: simpleParseArgs }) => {
-    return simpleParserWrapper<unknown, R>(...config)();
+  const parserWrapperInnerOp = ({ config }: { config: simpleParseArgs }) => {
+    return parserWrapper<unknown, R>(...config)();
   };
 
-  return createOperation<C, R[], never>(simpleParserWrapperInnerOp);
+  return createOperation<C, R[], never>(parserWrapperInnerOp);
 };
 
 export const getPutToMongoOperation = <C, P extends Document>() => {

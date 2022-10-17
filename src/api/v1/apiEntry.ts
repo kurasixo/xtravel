@@ -2,6 +2,7 @@ import express from 'express';
 import { initControllers } from './controllers';
 import type { Application } from 'express';
 import { connectMongo } from '../../db/utils';
+import { apiLog } from '../../utils/log';
 
 
 const apiApp = express();
@@ -11,7 +12,7 @@ const start = (app: Application) => {
 
   connectMongo().then(() => {
     app.listen(port, () => {
-      console.log('Started api app on port', port);
+      apiLog('Started api app on port', port);
     });
   });
 };

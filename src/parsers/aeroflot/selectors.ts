@@ -23,4 +23,9 @@ export const innerSelectors = {
   flightNumberSelector: '.flight-search__company .flight-search__plane-number',
   flightCompanySelector: '.flight-search__company .flight-search__company-name',
   flightPlaneSelector: '.flight-search__plane-model',
+
+  fromInputSelector: '#ticket-city-departure-0-booking',
+  toInputSelector: '#ticket-city-arrival-0-booking',
+  datePickerSelector: '#ticket-date-from-booking',
+  buttonSelector: 'button[type="submit"]',
 };
