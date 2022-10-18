@@ -1,5 +1,5 @@
+import type { AdditionalArgsType } from '../parser';
 import type { Price, RawPrice, RawRoute, Route, RouteByName } from '../../types';
-import { AdditionalArgsType } from '../parser';
 
 
 const normalizeTime = (time: string, separator = ':') => {

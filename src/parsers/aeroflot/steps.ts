@@ -7,7 +7,8 @@ const fillFlightForm: StepFn = async (page: Page, data: string[]) => {
   const [from, to, date] = data;
 
   const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle2'
+    waitUntil: 'networkidle2',
+    timeout: 80000,
   };
 
   /* start clearing form */

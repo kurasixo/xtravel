@@ -59,7 +59,7 @@ const normalizeDays = (
   };
 };
 
-const simpleNormalizePrice = (visaPrice: string | undefined): string => {
+const NormalizePrice = (visaPrice: string | undefined): string => {
   if (!visaPrice) {
     return 'free';
   }
@@ -120,7 +120,7 @@ const normalizePrice = (
 ): VisaInfo => {
   const { visaPrice } = visaInfoRaw;
 
-  const newPrice = simpleNormalizePrice(visaPrice);
+  const newPrice = NormalizePrice(visaPrice);
   if (newPrice === 'free') {
     return {
       ...visaInfoRaw,

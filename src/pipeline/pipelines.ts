@@ -1,15 +1,16 @@
-import type { AdditionalArgsType, ParseOperationConfig } from '../parsers/parser';
-import { rusNoVisaParserConfig } from '../parsers/rusNoVisa';
-
-import { visaMongoConfig, flightMongoConfig } from '../db/mongoService';
-import type { BaseMongoOperationConfig  } from '../db/mongoService';
-import type { RawRoute, RouteByName, VisaInfo, VisaInfoRaw } from '../types';
-import { getPutToMongoOperation, getParseOperation } from './operations';
-import { getAeroflotParserConfig } from '../parsers/aeroflot';
-import type { PipelineConfigItem } from './createPipeline';
 import { createPipeline } from './createPipeline';
+import { getPutToMongoOperation, getParseOperation } from './operations';
+import { visaMongoConfig, flightMongoConfig } from '../db/mongoService';
+
+import { rusNoVisaParserConfig } from '../parsers/rusNoVisa';
+import { getAeroflotParserConfig } from '../parsers/aeroflot';
 import { gets7ParserConfig } from '../parsers/s7';
 import { getUralAirlineParserConfig } from '../parsers/uralAirlines';
+
+import type { PipelineConfigItem } from './createPipeline';
+import type { RawRoute, RouteByName, VisaInfo, VisaInfoRaw } from '../types';
+import type { BaseMongoOperationConfig  } from '../db/mongoService';
+import type { AdditionalArgsType, ParseOperationConfig } from '../parsers/parser';
 
 
 export const parseRusNoVisaAndPutMongo = () => {
@@ -45,7 +46,8 @@ export const parseAeroflotAndPutMongo = (dataForSteps: AdditionalArgsType) => {
     operation: getPutToMongoOperation(),
   };
 
-  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot, putToMongo];
+  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot];
+  // const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot, putToMongo];
 
   return createPipeline(pipelineOperations);
 };
@@ -64,7 +66,8 @@ export const parseS7AndPutMongo = (dataForSteps: AdditionalArgsType) => {
     operation: getPutToMongoOperation(),
   };
 
-  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot, putToMongo];
+  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot];
+  // const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot, putToMongo];
 
   return createPipeline(pipelineOperations);
 };
@@ -84,7 +87,8 @@ export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) =
     operation: getPutToMongoOperation(),
   };
 
-  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseUralAirlines, putToMongo];
+  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseUralAirlines];
+  // const pipelineOperations: T<unknown, unknown, unknown>[] = [parseUralAirlines, putToMongo];
 
   return createPipeline(pipelineOperations);
 };

@@ -8,9 +8,9 @@ import { parserWrapper } from '../parsers/parser';
 
 
 export const getParseOperation = <C, R>() => {
-  type simpleParseArgs = ParseOperationConfig<unknown, R>
+  type parseArgs = ParseOperationConfig<unknown, R>
 
-  const parserWrapperInnerOp = ({ config }: { config: simpleParseArgs }) => {
+  const parserWrapperInnerOp = ({ config }: { config: parseArgs }) => {
     return parserWrapper<unknown, R>(...config)();
   };
 

@@ -1,7 +1,7 @@
 import { networkLog } from '../../log';
-import { memoNetworkWithCache } from '../../simpleCache';
+import { memoNetworkWithCache } from '../../cache/simpleCache';
 
-import type { SingleStep, Site } from '../../../types';
+import type { FnPromiseType, SingleStep, Site } from '../../../types';
 import type  { WaitForOptions } from 'puppeteer';
 import { launchHeadlessBrowser, stopHeadlessBrowser } from './launchBrowser';
 import { goBySteps } from './goBySteps';
@@ -12,7 +12,7 @@ const getRecordingName = (site: Site): string => {
   return recordingName;
 };
 
-export const getSiteHeadlesslyWihoutMemo = async (
+export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   site: Site,
   steps: SingleStep[],
 ): Promise<string> => {
@@ -22,7 +22,7 @@ export const getSiteHeadlesslyWihoutMemo = async (
 
   const waitUntilOptions: WaitForOptions = {
     waitUntil: 'networkidle2',
-    timeout: 60000,
+    timeout: 80000,
   };
 
   networkLog('start navigation');
@@ -45,7 +45,7 @@ export const getSiteHeadlesslyWihoutMemo = async (
   return pageContent;
 };
 
-export const getSiteHeadlessly = memoNetworkWithCache(
+export const getSiteHeadlessly: FnPromiseType<string> = memoNetworkWithCache(
   getSiteHeadlesslyWihoutMemo,
   'headlessCache.json'
 );

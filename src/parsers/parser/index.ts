@@ -1,5 +1,4 @@
 import cheerio from 'cheerio';
-import { getSite } from '../../utils/network/network';
 import type { FnPromiseType, Normalizer, ParserConfig, Processors, Selectors } from '../../types';
 
 
@@ -12,7 +11,7 @@ export type ParseOperationConfig<E, O> = [
   Processors<E>,
   Normalizer<E[], O[]>,
 
-  FnPromiseType<string> | undefined,
+  FnPromiseType<string>,
   AdditionalArgsType,
 ];
 
@@ -50,8 +49,8 @@ export const parserWrapper = <E, O>(
   processors: Processors<E>,
   normalizer: Normalizer<E[], O[]>,
 
-  getSiteFn: FnPromiseType<string> = getSite,
-  additionalArgs: AdditionalArgsType = [],
+  getSiteFn: FnPromiseType<string>,
+  additionalArgs: AdditionalArgsType,
 ) => {
   const parserWrapped = () => parser(
     parserConfig,

@@ -5,7 +5,7 @@ import { s7Selectors as selectors } from './selectors';
 import { s7Steps as steps } from './steps';
 
 import { getSiteHeadlessly } from '../../utils/network/headless';
-import { AdditionalArgsType, ParseOperationConfig } from '../parser';
+import type { AdditionalArgsType, ParseOperationConfig } from '../parser';
 import type { RawRoute, RouteByName } from '../../types';
 
 

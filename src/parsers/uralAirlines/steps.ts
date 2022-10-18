@@ -9,7 +9,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
 
   const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle2'
+    waitUntil: 'networkidle2',
+    timeout: 80000,
   };
 
   const closeButton = await page.$(innerSelectors.closeModalButtonSelector);
@@ -78,6 +79,7 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
 
   await page.waitForNavigation(waitUntilOptions);
 
+  await page.waitForSelector(innerSelectors.stopSelector, waitUntilOptions);
   const allPrices = await page.$$(innerSelectors.fullPriceSelector);
   const allStops = await page.$$(innerSelectors.stopSelector);
 

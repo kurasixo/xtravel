@@ -2,7 +2,8 @@
   "name": "xtravel",
   "version": "1.0.0",
   "main": "entry.ts",
-  "license": "MIT",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "build": "rm -rf build && tsc",
     "start": "yarn build && node build/entry.js",

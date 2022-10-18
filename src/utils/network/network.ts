@@ -1,14 +1,16 @@
 import axios from 'axios';
 
 import { networkLog } from '../log';
-import { memoNetworkWithCache } from '../simpleCache';
+import { memoNetworkWithCache } from '../cache/simpleCache';
 
-import type { Site } from '../../types';
+import type { FnPromiseType, Site } from '../../types';
 
 
-export const getSiteWithoutMemo = (site: Site): Promise<string> => {
+export const getSiteWithoutMemo: FnPromiseType<string> = (
+  site: Site,
+) => {
   networkLog('getting site content', site);
   return axios.get<string>(site).then((response) => response.data);
 };
 
-export const getSite = memoNetworkWithCache(getSiteWithoutMemo);
+export const getSite: FnPromiseType<string> = memoNetworkWithCache(getSiteWithoutMemo);

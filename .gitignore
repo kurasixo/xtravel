@@ -4,6 +4,7 @@ node_modules/
 demo/
 src/parsers/recordings/*.mp4
 build/
+build.webpack/
 
 .production.env
 
