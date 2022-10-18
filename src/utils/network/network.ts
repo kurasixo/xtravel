@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { networkLog } from './log';
-import { memoNetworkWithCache } from './simpleCache';
+import { networkLog } from '../log';
+import { memoNetworkWithCache } from '../simpleCache';
 
-import type { Site } from '../types';
+import type { Site } from '../../types';
 
 
 export const getSiteWithoutMemo = (site: Site): Promise<string> => {

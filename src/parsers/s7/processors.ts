@@ -18,24 +18,24 @@ const getAirport = (airport: string) => {
 };
 
 const getFlightAsObject = ($: cheerio.Root, flightElement: cheerio.Cheerio): Flight => {
-  const [from, to] = Array.from(flightElement.find('div.location_1Wo'));
+  const [from, to] = Array.from(flightElement.find(innerSelectors.locationsSelector));
 
   const [timeFrom, timeTo] = [
-    $(from).find('span.time_2cy').text(),
-    $(to).find('span.time_2cy').text(),
+    $(from).find(innerSelectors.timeSelector).text(),
+    $(to).find(innerSelectors.timeSelector).text(),
   ];
 
   const [fromAirportString, toAirportString] = [
-    $(from).find('div.row_2fG').text(),
-    $(to).find('div.row_2fG').text(),
+    $(from).find(innerSelectors.airportSelector).text(),
+    $(to).find(innerSelectors.airportSelector).text(),
   ];
 
   const fromAirport = getAirport(fromAirportString);
   const toAirport = getAirport(toAirportString);
 
-  const planeModel = flightElement.find('.desc_3I4').text();
+  const planeModel = flightElement.find(innerSelectors.planeModelSelector).text();
   const [flightCompany, flightNumber] = flightElement
-    .find('span.flight_number_22v')
+    .find(innerSelectors.flightNumberSelector)
     .text()
     .split(' ');
 
@@ -72,7 +72,7 @@ export const s7Processors: Processors<RawRoute> = {
     const flightsRouteArray = Array.from(rootFlight.find(innerSelectors.rootFlightsSelector));
     const flights = flightsRouteArray.map((flightEl) => getFlightAsObject($, $(flightEl)));
 
-    const transfersRouteArray = Array.from(rootFlight.find('span.text_1la'));
+    const transfersRouteArray = Array.from(rootFlight.find(innerSelectors.rootTransfersSelector));
     const transfers = transfersRouteArray.map((transferEl) => getTransferAsObject($, $(transferEl)));
 
     return {

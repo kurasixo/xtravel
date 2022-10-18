@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import { getSite } from '../../utils/network';
+import { getSite } from '../../utils/network/network';
 import type { FnPromiseType, Normalizer, ParserConfig, Processors, Selectors } from '../../types';
 
 

@@ -9,6 +9,7 @@ import { getAeroflotParserConfig } from '../parsers/aeroflot';
 import type { PipelineConfigItem } from './createPipeline';
 import { createPipeline } from './createPipeline';
 import { gets7ParserConfig } from '../parsers/s7';
+import { getUralAirlineParserConfig } from '../parsers/uralAirlines';
 
 
 export const parseRusNoVisaAndPutMongo = () => {
@@ -64,6 +65,26 @@ export const parseS7AndPutMongo = (dataForSteps: AdditionalArgsType) => {
   };
 
   const pipelineOperations: T<unknown, unknown, unknown>[] = [parseAeroflot, putToMongo];
+
+  return createPipeline(pipelineOperations);
+};
+
+
+export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) => {
+  type T<C, R, P> = PipelineConfigItem<C, R, P>;
+  type ParserConfig = ParseOperationConfig<RawRoute, RawRoute>;
+
+  const parseUralAirlines: T<ParserConfig, RawRoute[],  never> = {
+    config: getUralAirlineParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  const putToMongo: T<BaseMongoOperationConfig, void, RawRoute[]> = {
+    config: flightMongoConfig,
+    operation: getPutToMongoOperation(),
+  };
+
+  const pipelineOperations: T<unknown, unknown, unknown>[] = [parseUralAirlines, putToMongo];
 
   return createPipeline(pipelineOperations);
 };

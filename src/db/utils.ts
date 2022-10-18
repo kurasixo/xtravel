@@ -3,7 +3,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 
 const getUtilsForMongoConnection = () => {
-  const uri = `mongodb+srv://kurasixo:${process.env.MONGO_DB_PASSWORD}@xtravel-mongodb.fttbyce.mongodb.net/?retryWrites=true&w=majority`;
+  const uri = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@xtravel-mongodb.fttbyce.mongodb.net/?retryWrites=true&w=majority`;
   let mongoConnection: Promise<MongoClient> | null = null;
 
   const connectMongo = () => {
@@ -31,7 +31,7 @@ const getUtilsForMongoConnection = () => {
     }
 
     return mongoConnection.then((mongoClient) => {
-      mongoClient.close()
+      return mongoClient.close()
         .then(() => {
           mongoConnection = null;
           mongoLog('disconnected to mongo');

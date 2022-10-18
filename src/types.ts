@@ -7,6 +7,7 @@ export type Selector = string;
 
 
 export type StepFn = (page: Page, ...args: unknown[]) => Promise<string | void>;
+export type SingleStep = { stepFn: StepFn, dataForStep: AdditionalArgsType };
 export type FnPromiseType<T> = (...args: unknown[]) => Promise<T>;
 
 export type ParserConfig = {

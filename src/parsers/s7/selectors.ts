@@ -21,4 +21,11 @@ export const innerSelectors = {
   stopSelector: '.stops_1_p',
 
   rootFlightsSelector: 'div[data-qa="description_segmentItem"]',
+  rootTransfersSelector: 'span.text_1la',
+
+  timeSelector: 'span.time_2cy',
+  airportSelector: 'div.row_2fG',
+  planeModelSelector: '.desc_3I4',
+  flightNumberSelector: 'span.flight_number_22v',
+  locationsSelector: 'div.location_1Wo',
 };
