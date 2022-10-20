@@ -37,7 +37,7 @@ const launchOptions: PuppeteerLaunchOptions = {
   ],
 
   slowMo: isDebug() ? 200 : 40,
-  headless: isDebug(),
+  headless: !isDebug(),
 };
 
 const prepareFingerPrint = () => {

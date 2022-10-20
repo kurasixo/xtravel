@@ -3,6 +3,7 @@ import type { StepFn } from '../../types';
 import { innerSelectors } from './selectors';
 
 
+// move to seperate steps
 const fillFlightForm: StepFn = async (page: Page, data: string[]) => {
   const [from, to, date] = data;
 
@@ -12,6 +13,7 @@ const fillFlightForm: StepFn = async (page: Page, data: string[]) => {
   };
 
   /* start clearing form */
+  await page.waitForSelector(innerSelectors.fromInputSelector);
   const fromInputElement = await page.$(innerSelectors.fromInputSelector);
   await fromInputElement?.click();
   await fromInputElement?.focus();

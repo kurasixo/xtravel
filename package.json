@@ -1,12 +1,13 @@
 {
   "name": "xtravel",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "entry.ts",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "rm -rf build && tsc",
-    "start": "yarn build && node build/entry.js",
+    "build": "tsc",
+    "start": "yarn build && NODE_ENV=development node build/entry.js",
+    "start:debug": "yarn build && NODE_ENV=debug node build/entry.js",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -21,7 +22,8 @@
     "puppeteer": "^18.2.1",
     "puppeteer-extra": "^3.3.4",
     "puppeteer-extra-plugin-stealth": "^2.11.1",
-    "puppeteer-screen-recorder": "^2.1.2"
+    "puppeteer-screen-recorder": "^2.1.2",
+    "redis": "^4.3.1"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.31",

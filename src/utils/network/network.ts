@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { networkLog } from '../log';
-import { memoNetworkWithCache } from '../cache/simpleCache';
+import { memoNetworkWithCache } from '../cache/redisCache';
 
 import type { FnPromiseType, Site } from '../../types';
 

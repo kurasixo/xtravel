@@ -3,6 +3,7 @@ import { initControllers } from './controllers';
 import type { Application } from 'express';
 import { connectMongo } from '../../db/utils';
 import { apiLog } from '../../utils/log';
+import { getDropConnections } from '../../pipeline/operations';
 
 
 const apiApp = express();
@@ -14,6 +15,10 @@ const start = (app: Application) => {
     app.listen(port, () => {
       apiLog('Started api app on port', port);
     });
+  });
+
+  app.on('close', () => {
+    getDropConnections()({ config: undefined });
   });
 };
 

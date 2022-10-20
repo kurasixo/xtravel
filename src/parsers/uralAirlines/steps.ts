@@ -4,7 +4,7 @@ import type { WaitForOptions } from 'puppeteer';
 import type { StepFn } from '../../types';
 import { innerSelectors } from './selectors';
 
-
+// move to seperate steps
 const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
 
@@ -80,28 +80,26 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   await page.waitForNavigation(waitUntilOptions);
 
   await page.waitForSelector(innerSelectors.stopSelector, waitUntilOptions);
-  const allPrices = await page.$$(innerSelectors.fullPriceSelector);
   const allStops = await page.$$(innerSelectors.stopSelector);
+
+  const flightsContainers = await page.$$('.delta.col-auto');
 
   const dom = cheerio.load('<div class="root"></div>');
   const root = dom('.root');
 
   for (let i = 0; i < allStops.length; i++) {
+    await flightsContainers[i].click();
+    await page.waitForSelector('.fares');
+    const prices = await page.$('.fares');
+    const pricesContent = await prices?.evaluate((pricesEl) => pricesEl.outerHTML);
+
     await allStops[i].hover();
     await page.waitForSelector(innerSelectors.fullRouteSelector);
     const fullRoute = await page.$(innerSelectors.fullRouteSelector);
     const routeItemHtmlContent = await fullRoute?.evaluate((route) => route.outerHTML);
-    const priceHtmlContent = await allPrices[i].evaluate((priceEl) => priceEl.outerHTML);
-
-    console.log(
-      '\n',
-      routeItemHtmlContent,
-
-      allStops.length,
-    );
 
     root.append(routeItemHtmlContent as string);
-    dom(innerSelectors.fullRouteSelector).append(priceHtmlContent);
+    dom(dom(innerSelectors.fullRouteSelector)[i]).append(pricesContent as string);
   }
 
   const result = dom.html();

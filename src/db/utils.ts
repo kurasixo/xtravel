@@ -1,9 +1,16 @@
 import { mongoLog } from '../utils/log';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { isDebug, isDev } from '../utils/helpers';
+
+
+const mongoUserWithPassword = `${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}`;
+
+const mongoUri = isDev() || isDebug()
+  ? `mongodb://${mongoUserWithPassword}@localhost:27017`
+  : `mongodb+srv://${mongoUserWithPassword}@xtravel-mongodb.fttbyce.mongodb.net/?retryWrites=true&w=majority`;
 
 
 const getUtilsForMongoConnection = () => {
-  const uri = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@xtravel-mongodb.fttbyce.mongodb.net/?retryWrites=true&w=majority`;
   let mongoConnection: Promise<MongoClient> | null = null;
 
   const connectMongo = () => {
@@ -13,7 +20,7 @@ const getUtilsForMongoConnection = () => {
     }
 
     mongoLog('trying connect to mongo');
-    const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
+    const client = new MongoClient(mongoUri, { serverApi: ServerApiVersion.v1 });
 
     const connectionPromise = client.connect().then((connection) => {
       mongoLog('connected to mongo');

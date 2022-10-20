@@ -5,6 +5,8 @@ import type { ParseOperationConfig } from '../parsers/parser';
 import { createOperation } from './createOperation';
 import { putToMongo } from '../db/mongoService';
 import { parserWrapper } from '../parsers/parser';
+import { disconnectMongo } from '../db/utils';
+import { disconnectRedis } from '../utils/cache/redis/utils';
 
 
 export const getParseOperation = <C, R>() => {
@@ -23,4 +25,13 @@ export const getPutToMongoOperation = <C, P extends Document>() => {
   ) => putToMongo<P>(...config, prevRes);
 
   return createOperation<C, void, P>(putToMongoInnerOp);
+};
+
+export const getDropConnections = () => {
+  const dropConnectionsOp = () => {
+    return disconnectRedis()
+      ?.then(() => disconnectMongo());
+  };
+
+  return createOperation<undefined, void, never>(dropConnectionsOp);
 };

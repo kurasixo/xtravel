@@ -1,5 +1,5 @@
 import { networkLog } from '../../log';
-import { memoNetworkWithCache } from '../../cache/simpleCache';
+import { memoNetworkWithCache } from '../../cache/redisCache';
 
 import type { FnPromiseType, SingleStep, Site } from '../../../types';
 import type  { WaitForOptions } from 'puppeteer';
@@ -45,7 +45,4 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   return pageContent;
 };
 
-export const getSiteHeadlessly: FnPromiseType<string> = memoNetworkWithCache(
-  getSiteHeadlesslyWihoutMemo,
-  'headlessCache.json'
-);
+export const getSiteHeadlessly: FnPromiseType<string> = memoNetworkWithCache(getSiteHeadlesslyWihoutMemo);

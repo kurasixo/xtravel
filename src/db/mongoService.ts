@@ -1,5 +1,5 @@
 import type { Document } from 'mongodb';
-import { connectMongo, disconnectMongo } from './utils';
+import { connectMongo } from './utils';
 
 
 export type BaseMongoOperationConfig = [dbName: string, collectionName: string];
@@ -15,7 +15,7 @@ export const getFromMongo = (dbName: string, collectionName: string) => {
 
     return allItems
       .toArray()
-      .then((items) => disconnectMongo()?.then(() => items));
+      .then((items) => items);
   });
 };
 
@@ -31,9 +31,7 @@ export const putToMongo = <T extends Document>(
 
     return collection
       .insertMany(data, { ordered: true })
-      .then(() => {
-        return disconnectMongo();
-      });
+      .then(() => undefined);
   });
 };
 
@@ -45,8 +43,6 @@ export const dropMongo = (
     const db = mongoClient.db(dbName);
     const collection = db.collection(collectionName);
 
-    return collection
-      .deleteMany({})
-      .then(() => disconnectMongo());
+    return collection.deleteMany({});
   });
 };

@@ -4,6 +4,7 @@ import type { StepFn } from '../../types';
 import { innerSelectors, s7Selectors } from '../s7/selectors';
 
 
+// move to seperate steps
 const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
 

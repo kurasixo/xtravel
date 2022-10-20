@@ -21,7 +21,7 @@ export const innerSelectors = {
   fullRouteSelector: 'div[data-cy="flight-stop-tooltip"]',
   fullPriceSelector: '.flights-list div.price',
 
-  priceSelector: '.price',
+  priceSelector: 'span[data-cy="u6-price"]',
   flightsSelector: '.d-flex.mb-14',
   planeModelSelector: '.text-normal.mb-4.text-left .text-light.text-s.ml-10',
   flightNumberSelector: '.text-normal.mb-4.text-left > span:first-child',

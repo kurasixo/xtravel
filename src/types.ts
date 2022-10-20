@@ -71,11 +71,11 @@ export type RawTransfer = {
 
 export type Flight = {
   planeModel: string | null;
-  flightCompany: string | null;
-  flightNumber: string | null;
+  flightCompany: string;
+  flightNumber: string;
 
-  timeFrom: string | null;
-  timeTo: string | null;
+  timeFrom: string;
+  timeTo: string;
 
   fromAirport: Airport;
   toAirport: Airport;

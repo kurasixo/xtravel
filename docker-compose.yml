@@ -1,0 +1,23 @@
+services:
+  parsers-cache:
+    image: redis
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - redis:/data
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+volumes:
+  mongo:
+  redis:
