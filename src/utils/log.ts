@@ -76,7 +76,7 @@ export const mongoLog: typeof log = (message, ...rest) => {
 
 export const redisLog: typeof log = (message, ...rest) => {
   if (isLogEnabled) {
-    log(`${colors.FgGreen}%s${specialChar}`, `Redis saying: ${message}`, ...rest);
+    log(`${colors.FgMagenta}%s${specialChar}`, `Redis saying: ${message}`, ...rest);
   }
 };
 

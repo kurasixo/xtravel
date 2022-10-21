@@ -3,14 +3,15 @@ import { getPutToMongoOperation, getParseOperation, getDropConnections } from '.
 import { visaMongoConfig, flightMongoConfig } from '../db/mongoService';
 
 import { rusNoVisaParserConfig } from '../parsers/rusNoVisa';
-import { getAeroflotParserConfig } from '../parsers/aeroflot';
 import { gets7ParserConfig } from '../parsers/s7';
+import { getAeroflotParserConfig } from '../parsers/aeroflot';
 import { getUralAirlineParserConfig } from '../parsers/uralAirlines';
 
 import type { PipelineConfigItem } from './createPipeline';
 import type { RawRoute, RouteByName, VisaInfo, VisaInfoRaw } from '../types';
 import type { BaseMongoOperationConfig  } from '../db/mongoService';
 import type { AdditionalArgsType, ParseOperationConfig } from '../parsers/parser';
+import { getUtairParserConfig } from '../parsers/utair';
 
 
 type T<C, R, P> = PipelineConfigItem<C, R, P>;
@@ -81,7 +82,6 @@ export const parseS7AndPutMongo = (dataForSteps: AdditionalArgsType) => {
   return createPipeline(pipelineOperations);
 };
 
-
 export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) => {
   type ParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
@@ -93,6 +93,22 @@ export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) =
   const pipelineOperations: OperationsArray = [
     parseUralAirlines,
     putFlightsToMongo,
+    // dropConnectionsOp,
+  ];
+  return createPipeline(pipelineOperations);
+};
+
+export const parseUtairAndPutMongo = (dataForSteps: AdditionalArgsType) => {
+  type ParserConfig = ParseOperationConfig<RawRoute, RawRoute>;
+
+  const parseUtair: T<ParserConfig, RawRoute[],  never> = {
+    config: getUtairParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  const pipelineOperations: OperationsArray = [
+    parseUtair,
+    // putFlightsToMongo,
     // dropConnectionsOp,
   ];
   return createPipeline(pipelineOperations);

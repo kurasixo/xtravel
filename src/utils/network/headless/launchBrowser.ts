@@ -32,12 +32,19 @@ const launchOptions: PuppeteerLaunchOptions = {
   },
 
   args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-infobars',
+    '--window-position=0,0',
+    '--ignore-certifcate-errors',
+    '--ignore-certifcate-errors-spki-list',
     '--incognito',
     '--window-size=' + windowDimensions.width + ',' + windowDimensions.height,
   ],
 
   slowMo: isDebug() ? 200 : 40,
   headless: !isDebug(),
+  // headless: false,
 };
 
 const prepareFingerPrint = () => {
@@ -80,6 +87,13 @@ const startRecorder = async (
 const injectFingerPrint = async (page: Page) => {
   const fingerprintInjector = new FingerprintInjector();
   const fingerPrint = prepareFingerPrint();
+
+  await page.setCacheEnabled(false);
+
+  // NEED TO TEST THIS APPROACH, BEING DETECTED AS BOT
+  // const cdpSession = await page.target().createCDPSession();
+  // const randomSlowRate = Math.abs(Math.round(Math.random() * 10) - 6);
+  // await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: randomSlowRate });
 
   await fingerprintInjector.attachFingerprintToPuppeteer(page, fingerPrint);
 };

@@ -10,7 +10,7 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
 
   const waitUntilOptions: WaitForOptions = {
     waitUntil: 'networkidle2',
-    timeout: 80000,
+    timeout: 800000,
   };
 
   await page.waitForSelector(innerSelectors.fromInputSelector);

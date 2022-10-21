@@ -6,6 +6,7 @@ import {
   parseS7AndPutMongo,
   parseAeroflotAndPutMongo,
   parseUralAirlinesAndPutMongo,
+  parseUtairAndPutMongo,
 
   parseRusNoVisaAndPutMongo,
 } from './pipeline/pipelines';
@@ -17,6 +18,7 @@ import { getDropConnections } from './pipeline/operations';
 const parseEverything = () => {
   const dataForStep = ['Ташкент', 'Санкт-Петербург', '17.10.2022'];
   const dataForStep1 = ['Санкт-Петербург', 'Омск', '26.10.2022'];
+  const dataForStep2 = ['Москва', 'Томск', '26.10.2022'];
 
   dropMongo(...visaMongoConfig).then(() => dropMongo(...flightMongoConfig)).then(() =>
     Promise.all([
@@ -25,7 +27,7 @@ const parseEverything = () => {
       //     console.log('finished parsing', 'parseRusNoVisaAndPutMongo');
       //   }),
 
-      parseUralAirlinesAndPutMongo([dataForStep1])
+      parseUtairAndPutMongo([dataForStep2])
         .then(() => {
           console.log('finished parsing', 'parseUralAirlinesAndPutMongo');
         }),
@@ -45,5 +47,5 @@ const parseEverything = () => {
   );
 };
 
-// parseEverything();
+parseEverything();
 // startApiApp();

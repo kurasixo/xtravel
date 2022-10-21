@@ -9,6 +9,9 @@ import { goBySteps } from './goBySteps';
 
 const getRecordingName = (site: Site): string => {
   const recordingName = site.split('/')[2] + '.mp4';
+  // if (recordingName.includes('www')) {
+  //   recordingName.split('https://www')
+  // }
   return recordingName;
 };
 
@@ -22,7 +25,7 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
 
   const waitUntilOptions: WaitForOptions = {
     waitUntil: 'networkidle2',
-    timeout: 80000,
+    timeout: 800000,
   };
 
   networkLog('start navigation');

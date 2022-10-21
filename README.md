@@ -1,6 +1,7 @@
-# Выбрать страну по критериям:
- - легко сделать визу/виза не нужна (для конкретного гражданства)
- - там безопасно
- - недорого стоит билет
- - недорого стоит жилье
- - можно жить от месяца
+# TODO:
+ - add error handling
+ - add tests
+ - add core functional with current data
+ - move data to pgql
+ - refactor all selector
+ - add service for update automatically selector with prev state of site (state machine?)
