@@ -50,6 +50,12 @@ export const networkLog: typeof log = (message, ...rest) => {
   }
 };
 
+export const parserLog: typeof log = (message, ...rest) => {
+  if (isLogEnabled) {
+    log(`${colors.FgBlue}%s${specialChar}`, `Parser saying: ${message}`, ...rest);
+  }
+};
+
 export const utilsLog: typeof log = (message, ...rest) => {
   if (isLogEnabled) {
     log(`${colors.FgYellow}%s${specialChar}`, `Utils saying: ${message}`, ...rest);

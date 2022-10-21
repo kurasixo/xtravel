@@ -99,7 +99,7 @@ export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) =
 };
 
 export const parseUtairAndPutMongo = (dataForSteps: AdditionalArgsType) => {
-  type ParserConfig = ParseOperationConfig<RawRoute, RawRoute>;
+  type ParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
   const parseUtair: T<ParserConfig, RawRoute[],  never> = {
     config: getUtairParserConfig(dataForSteps),

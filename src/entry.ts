@@ -1,6 +1,14 @@
+import { isDebug, isDev } from './utils/helpers';
 // eslint-disable-next-line
 import * as dotenv from 'dotenv';
-dotenv.config({ path: `.${process.env.NODE_ENV}.env` });
+const devDotenv = '.development.env';
+const prodDotend = '.production.env';
+
+const dotEnvToUse = isDev() || isDebug()
+  ? devDotenv
+  : prodDotend;
+
+dotenv.config({ path: dotEnvToUse });
 
 import {
   parseS7AndPutMongo,

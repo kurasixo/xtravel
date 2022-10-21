@@ -12,7 +12,6 @@ import { networkLog } from '../../log';
 
 export const defaultWaitUntilOptions: WaitForOptions = {
   waitUntil: ['domcontentloaded', 'networkidle0'],
-  timeout: 800000,
 };
 
 const plugins = [StealthPlugin()];
@@ -47,9 +46,8 @@ const launchOptions: PuppeteerLaunchOptions = {
     '--window-size=' + windowDimensions.width + ',' + windowDimensions.height,
   ],
 
-  slowMo: isDebug() ? 200 : 40,
+  slowMo: 40,
   headless: !isDebug(),
-  // headless: false,
 };
 
 const prepareFingerPrint = () => {
@@ -94,6 +92,9 @@ const injectFingerPrint = async (page: Page) => {
   const fingerPrint = prepareFingerPrint();
 
   await page.setCacheEnabled(false);
+
+  await page.setDefaultTimeout(20000);
+  await page.setDefaultNavigationTimeout(20000);
 
   // NEED TO TEST THIS APPROACH, BEING DETECTED AS BOT
   // const cdpSession = await page.target().createCDPSession();

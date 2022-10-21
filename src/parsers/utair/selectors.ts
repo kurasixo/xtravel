@@ -20,5 +20,6 @@ export const innerSelectors = {
   searchButton: 'button[data-testid="SearchWidgetFindButton"]',
 
   flights: '.FlightInfo.FlightInfoBlock-Tooltip',
-  prices: '.FlightRow-Cell',
+  prices: '.FlightRow-Cell .OfferControl',
+  innerPrices: '#innerPrice',
 };

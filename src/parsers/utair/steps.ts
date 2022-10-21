@@ -1,6 +1,7 @@
 import cheerio from 'cheerio';
 
 import type { StepFn } from '../../types';
+import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
 import { innerSelectors } from './selectors';
 
 // move to seperate steps
@@ -63,23 +64,23 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   const searchButton = await page.$(innerSelectors.searchButton);
   await searchButton?.click();
 
+  await page.waitForNavigation(defaultWaitUntilOptions);
+
   const flights = await page.$$(innerSelectors.flights);
+  const flightsRow = await page.$$('.FlightRow');
 
   const dom = cheerio.load('<div class="root"></div>');
   const root = dom('.root');
 
   for (let i = 0; i < flights.length; i++) {
-    const prices = await flights[i].$$(innerSelectors.prices);
+    const prices = await flightsRow[i].$$(innerSelectors.prices);
     const pricesArrayHtml = await Promise.all(prices.map((price) => {
       return price.evaluate((priceEl) => '<div id="innerPrice">' + priceEl.textContent + '</div>');
     }));
 
     const priceHtml = `<div id="prices">${pricesArrayHtml.join('')}</div>`;
-    console.log(priceHtml);
+    const routeItemHtmlContent = await flights[i]?.evaluate((route) => route.outerHTML);
 
-    const fullRoute = flights[i];
-    const routeItemHtmlContent = await fullRoute?.evaluate((route) => route.outerHTML);
-    console.log(routeItemHtmlContent, flights.length);
     root.append(routeItemHtmlContent as string);
     dom(dom(innerSelectors.flights)[i]).append(priceHtml);
   }
