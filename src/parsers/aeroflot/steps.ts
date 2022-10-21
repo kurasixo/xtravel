@@ -1,16 +1,12 @@
-import type { Page, WaitForOptions } from 'puppeteer';
+import type { Page, } from 'puppeteer';
 import type { StepFn } from '../../types';
+import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
 import { innerSelectors } from './selectors';
 
 
 // move to seperate steps
 const fillFlightForm: StepFn = async (page: Page, data: string[]) => {
   const [from, to, date] = data;
-
-  const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle2',
-    timeout: 800000,
-  };
 
   /* start clearing form */
   await page.waitForSelector(innerSelectors.fromInputSelector);
@@ -56,7 +52,7 @@ const fillFlightForm: StepFn = async (page: Page, data: string[]) => {
   const searchButton = await page.$(innerSelectors.buttonSelector);
   await searchButton?.click();
 
-  await page.waitForNavigation(waitUntilOptions);
+  await page.waitForNavigation(defaultWaitUntilOptions);
 };
 
 export const aeroflotSteps: StepFn[] = [fillFlightForm];

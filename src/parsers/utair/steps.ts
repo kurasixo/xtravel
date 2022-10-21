@@ -1,6 +1,5 @@
 import cheerio from 'cheerio';
 
-import type { WaitForOptions } from 'puppeteer';
 import type { StepFn } from '../../types';
 import { innerSelectors } from './selectors';
 
@@ -8,37 +7,32 @@ import { innerSelectors } from './selectors';
 const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
 
-  const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle0',
-    timeout: 80000,
-  };
+  const suggestionsFields = await page.$$(innerSelectors.suggestionsFields);
 
-  const suggestionsFields = await page.$$('.SearchWidget-box.-city');
-
-  await page.waitForSelector('input[data-testid="SearchWidgetDepartureInput"]');
-  const inputValue = await page.$eval('input[data-testid="SearchWidgetDepartureInput"]', el => el.getAttribute('value')) || '';
+  await page.waitForSelector(innerSelectors.fromInputSelector);
+  const inputValue = await page.$eval(innerSelectors.fromInputSelector, el => el.getAttribute('value')) || '';
   for (let i = 0; i < inputValue.length; i++) {
     await page.keyboard.press('Backspace');
   }
 
-  const fromInputElement = await page.$('input[data-testid="SearchWidgetDepartureInput"]');
+  const fromInputElement = await page.$(innerSelectors.fromInputSelector);
   await fromInputElement?.click();
   await page.keyboard.type(from, { delay: 400 });
 
-  const fromInputFirstSuggestionElement = await suggestionsFields[0].$('.CityAutocomplete-name');
+  const fromInputFirstSuggestionElement = await suggestionsFields[0].$(innerSelectors.firstSuggestion);
   await fromInputFirstSuggestionElement?.click();
 
 
-  const toInputElement = await page.$('input[data-testid="SearchWidgetArrivalInput"]');
+  const toInputElement = await page.$(innerSelectors.toInputSelector);
   await toInputElement?.click();
   await page.keyboard.type(to, { delay: 400 });
 
-  const toInputFirstSuggestionElement = await suggestionsFields[1].$('.CityAutocomplete-name');
+  const toInputFirstSuggestionElement = await suggestionsFields[1].$(innerSelectors.firstSuggestion);
   await toInputFirstSuggestionElement?.click();
 
   await page.keyboard.press('Tab');
 
-  const [datePicker] = await page.$$('.SearchWidget-input.-select');
+  const [datePicker] = await page.$$(innerSelectors.datePickers);
   await datePicker?.click();
   await datePicker?.focus();
 
@@ -48,17 +42,15 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
 
   const searchDateString = monthInLocale + ' ' + year;
 
-  const magicDateTimeElements = await page
-    .$$('.CalendarMonthGrid_month__horizontal:not(.CalendarMonthGrid_month__hidden)');
-  const magicDateTimeElementsHeader = await page
-    .$$('.CalendarMonthGrid_month__horizontal:not(.CalendarMonthGrid_month__hidden) .CalendarMonth_caption');
+  const magicDateTimeElements = await page.$$(innerSelectors.calendars);
+  const magicDateTimeElementsHeader = await page.$$(innerSelectors.calendarsMonths);
   const months = await Promise.all(magicDateTimeElementsHeader.map((tableHead) => {
     return tableHead?.evaluate(th => th.textContent);
   }));
 
   const foundMonth = months.find((month) => month?.toLocaleLowerCase() === searchDateString);
   const indexOfFoundMonth = months.indexOf(foundMonth as string);
-  const allDateElements = await magicDateTimeElements[indexOfFoundMonth].$$('td.CalendarDay');
+  const allDateElements = await magicDateTimeElements[indexOfFoundMonth].$$(innerSelectors.calendarsDay);
   const dates = await Promise.all(allDateElements.map((dateElement) => {
     return dateElement.evaluate(td => td.textContent);
   }));
@@ -68,16 +60,16 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   const dateElementToClick = allDateElements[indexOfFoundDate];
   await dateElementToClick?.click();
 
-  const searchButton = await page.$('button[data-testid="SearchWidgetFindButton"]');
+  const searchButton = await page.$(innerSelectors.searchButton);
   await searchButton?.click();
 
-  const flights = await page.$$('.FlightInfo.FlightInfoBlock-Tooltip');
+  const flights = await page.$$(innerSelectors.flights);
 
   const dom = cheerio.load('<div class="root"></div>');
   const root = dom('.root');
 
   for (let i = 0; i < flights.length; i++) {
-    const prices = await flights[i].$$('.FlightRow-Cell');
+    const prices = await flights[i].$$(innerSelectors.prices);
     const pricesArrayHtml = await Promise.all(prices.map((price) => {
       return price.evaluate((priceEl) => '<div id="innerPrice">' + priceEl.textContent + '</div>');
     }));
@@ -89,7 +81,7 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
     const routeItemHtmlContent = await fullRoute?.evaluate((route) => route.outerHTML);
     console.log(routeItemHtmlContent, flights.length);
     root.append(routeItemHtmlContent as string);
-    dom(dom('.FlightInfo.FlightInfoBlock-Tooltip')[i]).append(priceHtml);
+    dom(dom(innerSelectors.flights)[i]).append(priceHtml);
   }
 
   const result = dom.html();

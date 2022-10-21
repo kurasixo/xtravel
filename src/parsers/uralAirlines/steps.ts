@@ -1,17 +1,12 @@
 import cheerio from 'cheerio';
 
-import type { WaitForOptions } from 'puppeteer';
 import type { StepFn } from '../../types';
+import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
 import { innerSelectors } from './selectors';
 
 // move to seperate steps
 const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
-
-  const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle2',
-    timeout: 800000,
-  };
 
   const closeButton = await page.$(innerSelectors.closeModalButtonSelector);
   await closeButton?.click();
@@ -77,9 +72,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   // @ts-ignore
   await searchButton?.evaluate(searchButtonEl => searchButtonEl.click());
 
-  await page.waitForNavigation(waitUntilOptions);
-
-  await page.waitForSelector(innerSelectors.stopSelector, waitUntilOptions);
+  await page.waitForNavigation(defaultWaitUntilOptions);
+  await page.waitForSelector(innerSelectors.stopSelector, defaultWaitUntilOptions);
   const allStops = await page.$$(innerSelectors.stopSelector);
 
   const flightsContainers = await page.$$('.delta.col-auto');

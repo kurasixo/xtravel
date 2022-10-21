@@ -4,11 +4,16 @@ import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder';
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
 
-import type { Browser, Page, PuppeteerLaunchOptions } from 'puppeteer';
+import type { Browser, Page, PuppeteerLaunchOptions, WaitForOptions } from 'puppeteer';
 
 import { isDebug } from '../../helpers';
 import { networkLog } from '../../log';
 
+
+export const defaultWaitUntilOptions: WaitForOptions = {
+  waitUntil: ['domcontentloaded', 'networkidle0'],
+  timeout: 800000,
+};
 
 const plugins = [StealthPlugin()];
 const windowDimensions = {
@@ -18,8 +23,8 @@ const windowDimensions = {
 
 const recorderConfig = {
   videoFrame: {
-    width: windowDimensions.width,
-    height: windowDimensions.height,
+    width: windowDimensions.width + 80,
+    height: windowDimensions.height + 80,
   },
   aspectRatio: '16:9',
   fps: 30,

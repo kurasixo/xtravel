@@ -2,16 +2,17 @@ import { networkLog } from '../../log';
 import { memoNetworkWithCache } from '../../cache/redisCache';
 
 import type { FnPromiseType, SingleStep, Site } from '../../../types';
-import type  { WaitForOptions } from 'puppeteer';
-import { launchHeadlessBrowser, stopHeadlessBrowser } from './launchBrowser';
+import { defaultWaitUntilOptions, launchHeadlessBrowser, stopHeadlessBrowser } from './launchBrowser';
 import { goBySteps } from './goBySteps';
 
 
 const getRecordingName = (site: Site): string => {
   const recordingName = site.split('/')[2] + '.mp4';
-  // if (recordingName.includes('www')) {
-  //   recordingName.split('https://www')
-  // }
+
+  if (recordingName.includes('www')) {
+    return recordingName.split('www.')[1];
+  }
+
   return recordingName;
 };
 
@@ -23,27 +24,21 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   const recordingName = getRecordingName(site);
   const [browser, page, recorder] = await launchHeadlessBrowser(recordingName);
 
-  const waitUntilOptions: WaitForOptions = {
-    waitUntil: 'networkidle2',
-    timeout: 800000,
-  };
-
   networkLog('start navigation');
-  await page.goto(site, waitUntilOptions);
+  await page.goto(site, defaultWaitUntilOptions);
   networkLog('end navigation');
 
   networkLog('start steps');
   const stepsResult = await goBySteps(steps, page);
   networkLog('end steps');
 
-  if (stepsResult) {
-    networkLog('returning steps result');
-    await stopHeadlessBrowser(browser, page, recorder);
-    return stepsResult;
-  }
-
   const pageContent = page.content();
   await stopHeadlessBrowser(browser, page, recorder);
+
+  if (stepsResult) {
+    networkLog('returning steps result');
+    return stepsResult;
+  }
 
   return pageContent;
 };
