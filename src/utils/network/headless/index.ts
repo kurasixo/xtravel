@@ -24,11 +24,6 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   const recordingName = getRecordingName(site);
   const [browser, page, recorder] = await launchHeadlessBrowser(recordingName);
 
-  // debugging
-  page.on('error', (errorEvent) => {
-    console.log(errorEvent.name);
-  });
-
   networkLog('start navigation');
   await page.goto(site, defaultWaitUntilOptions);
   networkLog('end navigation');

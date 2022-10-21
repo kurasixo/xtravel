@@ -9,7 +9,7 @@ import type { AdditionalArgsType, ParseOperationConfig } from '../parser';
 import type { RawRoute, RouteByName } from '../../types';
 
 
-type ParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
+export type UtairParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
 export const getUtairParserConfig = (dataForSteps: AdditionalArgsType) => {
   const getStepsToUse = steps.map((stepFn, index) => {
@@ -19,7 +19,7 @@ export const getUtairParserConfig = (dataForSteps: AdditionalArgsType) => {
     };
   });
 
-  const UtairParserConfig: ParserConfig = [
+  const UtairParserConfig: UtairParserConfig = [
     config,
     selectors,
     processors,

@@ -8,8 +8,8 @@ import type { VisaInfo, VisaInfoRaw } from '../../types';
 import type { ParseOperationConfig } from '../parser';
 
 
-type ParserConfig = ParseOperationConfig<VisaInfoRaw, VisaInfo>;
-export const rusNoVisaParserConfig: ParserConfig = [
+export type RusNoVisaParserConfig = ParseOperationConfig<VisaInfoRaw, VisaInfo>;
+export const rusNoVisaParserConfig: RusNoVisaParserConfig = [
   config,
   selectors,
   processors,

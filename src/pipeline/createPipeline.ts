@@ -6,7 +6,7 @@ export interface PipelineConfigItem<C, R, P> {
   operation: OperationFn<C, R, P>,
 }
 
-export const createPipeline = <C, R, P>(
+export const createSyncPipeline = <C, R, P>(
   pipelineOperations: PipelineConfigItem<C, R, P>[],
 ): Promise<unknown> => {
   const initialPromise: Promise<unknown> = new Promise(() => {});
@@ -23,4 +23,16 @@ export const createPipeline = <C, R, P>(
     }, initialPromise);
 
   return aggregatedPromise;
+};
+
+export const createPipeline = <C, R>(
+  pipelineOperations: PipelineConfigItem<C, R, never>[],
+): Promise<unknown> => {
+  const resPromises = Promise.all(
+    pipelineOperations.map(({ operation: operationFn, config }) => {
+      return operationFn({ config });
+    })
+  );
+
+  return resPromises;
 };

@@ -63,12 +63,7 @@ export const parserWrapper = <E, O>(
   );
 
   if (parserConfig.parserName) {
-    Object.defineProperty(parserWrapped, 'name', {
-      value: `parserFor${parserConfig.parserName}`,
-      writable: false,
-      enumerable: false,
-      configurable: true,
-    });
+    Object.defineProperty(parserWrapped, 'name', { value: `parserFor${parserConfig.parserName}` });
 
     return parserWrapped;
   }

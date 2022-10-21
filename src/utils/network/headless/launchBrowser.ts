@@ -29,6 +29,9 @@ const recorderConfig = {
   fps: 30,
 };
 
+// should be 20000, but due to my not the best connection have to play around with it
+const defaultTimeout = 40000;
+
 const launchOptions: PuppeteerLaunchOptions = {
   defaultViewport: {
     width: windowDimensions.width,
@@ -91,17 +94,32 @@ const injectFingerPrint = async (page: Page) => {
   const fingerprintInjector = new FingerprintInjector();
   const fingerPrint = prepareFingerPrint();
 
-  await page.setCacheEnabled(false);
+  await fingerprintInjector.attachFingerprintToPuppeteer(page, fingerPrint);
+};
 
-  await page.setDefaultTimeout(20000);
-  await page.setDefaultNavigationTimeout(20000);
-
-  // NEED TO TEST THIS APPROACH, BEING DETECTED AS BOT
+const configPage = async (page: Page) => {
+  // NEED TO TEST THIS APPROACH, BEING DETECTED AS BOT for pobeda parser
   // const cdpSession = await page.target().createCDPSession();
   // const randomSlowRate = Math.abs(Math.round(Math.random() * 10) - 6);
   // await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: randomSlowRate });
 
-  await fingerprintInjector.attachFingerprintToPuppeteer(page, fingerPrint);
+  await Promise.all([
+    page.setCacheEnabled(false),
+    page.setDefaultTimeout(defaultTimeout),
+    page.setDefaultNavigationTimeout(defaultTimeout),
+  ]);
+};
+
+const injectErrorHandling = async (
+  browser: Browser,
+  page: Page,
+  recorder: PuppeteerScreenRecorder,
+) => {
+  page.on('error', async (errorEvent) => {
+    console.log(errorEvent.name);
+    await recorder.stop();
+    throw errorEvent;
+  });
 };
 
 export const launchHeadlessBrowser = async (
@@ -111,9 +129,11 @@ export const launchHeadlessBrowser = async (
 
   const browser = await puppeteer.launch(launchOptions);
   const [page] = await browser.pages();
-
-  await injectFingerPrint(page);
   const recorder = await startRecorder(page, recordingName);
+
+  await configPage(page);
+  await injectFingerPrint(page);
+  await injectErrorHandling(browser, page, recorder);
 
   return [browser, page, recorder];
 };

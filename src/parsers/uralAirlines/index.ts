@@ -9,7 +9,7 @@ import type { AdditionalArgsType, ParseOperationConfig } from '../parser';
 import type { RawRoute, RouteByName } from '../../types';
 
 
-type ParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
+export type UralAirlineParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
 export const getUralAirlineParserConfig = (dataForSteps: AdditionalArgsType) => {
   const getStepsToUse = steps.map((stepFn, index) => {
@@ -19,7 +19,7 @@ export const getUralAirlineParserConfig = (dataForSteps: AdditionalArgsType) => 
     };
   });
 
-  const uralAirlineParserConfig: ParserConfig = [
+  const uralAirlineParserConfig: UralAirlineParserConfig = [
     config,
     selectors,
     processors,

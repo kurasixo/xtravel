@@ -4,8 +4,9 @@ import type { Controller, ControllerAsIs } from '../../apiTypes';
 
 const parseAsIs: ControllerAsIs = (req, res) => {
   res?.contentType('application/json');
-  // getFromMongo(...flightMongoConfig)
-  //   .then(items => res?.send(items));
+  const { from, to, date } = req.body;
+
+
 };
 
 const parseMethod = 'post';

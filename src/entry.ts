@@ -17,6 +17,7 @@ import {
   parseUtairAndPutMongo,
 
   parseRusNoVisaAndPutMongo,
+  parseAllPipeline,
 } from './pipeline/pipelines';
 import { dropMongo, flightMongoConfig, visaMongoConfig } from './db/mongoService';
 import { startApiApp } from './api/v1/apiEntry';
@@ -28,31 +29,13 @@ const parseEverything = () => {
   const dataForStep1 = ['Санкт-Петербург', 'Омск', '26.10.2022'];
   const dataForStep2 = ['Москва', 'Томск', '26.10.2022'];
 
-  dropMongo(...visaMongoConfig).then(() => dropMongo(...flightMongoConfig)).then(() =>
-    Promise.all([
-      // parseRusNoVisaAndPutMongo()
-      //   .then(() => {
-      //     console.log('finished parsing', 'parseRusNoVisaAndPutMongo');
-      //   }),
-
-      parseUtairAndPutMongo([dataForStep2])
+  dropMongo(...visaMongoConfig).then(() => dropMongo(...flightMongoConfig))
+    .then(() =>
+      parseAllPipeline(dataForStep2)
         .then(() => {
-          console.log('finished parsing', 'parseUralAirlinesAndPutMongo');
-        }),
-
-      // parseAeroflotAndPutMongo([dataForStep1])
-      //   .then(() => {
-      //     console.log('finished parsing', 'parseAeroflotAndPutMongo');
-      //   }),
-
-      // parseS7AndPutMongo([dataForStep1])
-      //   .then(() => {
-      //     console.log('finished parsing', 'parseS7AndPutMongo');
-      //   }),
-    ]).then(() => {
-      getDropConnections()({ config: undefined });
-    })
-  );
+          getDropConnections()({ config: undefined });
+        })
+    );
 };
 
 parseEverything();
