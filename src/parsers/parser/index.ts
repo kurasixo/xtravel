@@ -1,5 +1,11 @@
 import cheerio from 'cheerio';
-import type { FnPromiseType, Normalizer, ParserConfig, Processors, Selectors } from '../../types';
+import type {
+  Selectors,
+  Normalizer,
+  Processors,
+  ParserConfig,
+  FnPromiseType,
+} from '../../types';
 
 
 // eslint-disable-next-line

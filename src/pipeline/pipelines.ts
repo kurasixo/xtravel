@@ -29,7 +29,7 @@ const putVisasToMongo: T<BaseMongoOperationConfig, void, VisaInfo[]> = {
   operation: putToMongo,
 };
 
-const dropConnectionsOp: T<undefined, void, never> = {
+export const dropConnectionsOp: T<undefined, void, never> = {
   config: undefined,
   operation: getDropConnections(),
 };
@@ -46,6 +46,42 @@ export const parseRusNoVisaAndPutMongo = () => {
     // dropConnectionsOp,
   ];
   return createSyncPipeline(pipelineOperations);
+};
+
+export const parseAeroflotOp = (dataForSteps: AdditionalArgsType) => {
+  const parseAeroflot: T<AeroflotParserConfig, RouteByName[],  never> = {
+    config: getAeroflotParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  return createSyncPipeline([parseAeroflot]);
+};
+
+export const parseS7Op = (dataForSteps: AdditionalArgsType) => {
+  const parseS7: T<S7ParserConfig, RouteByName[],  never> = {
+    config: gets7ParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  return createSyncPipeline([parseS7]);
+};
+
+export const parseUralAirlinesOp = (dataForSteps: AdditionalArgsType) => {
+  const parseUralAirlines: T<UralAirlineParserConfig, RouteByName[],  never> = {
+    config: getUralAirlineParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  return createSyncPipeline([parseUralAirlines]);
+};
+
+export const parseUtairOp = (dataForSteps: AdditionalArgsType) => {
+  const parseUtair: T<UtairParserConfig, RouteByName[],  never> = {
+    config: getUtairParserConfig(dataForSteps),
+    operation: getParseOperation(),
+  };
+
+  return createSyncPipeline([parseUtair]);
 };
 
 export const parseAeroflotAndPutMongo = (dataForSteps: AdditionalArgsType) => {

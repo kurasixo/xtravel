@@ -25,6 +25,7 @@ const start = (app: Application) => {
   });
 };
 
+apiApp.use(express.json());
 initControllers(apiApp);
 
 export const startApiApp = () => start(apiApp);

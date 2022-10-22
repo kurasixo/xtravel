@@ -18,8 +18,8 @@ const normalizeTransfer = (rawTransfer: RawTransfer): Transfer => {
     .split(' ');
 
   return {
-    ...rawTransfer,
     transferTime: (+hours * 60) + (+minutes),
+    transferChange: 'unavailable',
   };
 };
 

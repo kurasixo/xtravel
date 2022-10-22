@@ -31,12 +31,12 @@ const parseEverything = () => {
 
   dropMongo(...visaMongoConfig).then(() => dropMongo(...flightMongoConfig))
     .then(() =>
-      parseAllPipeline(dataForStep2)
+      parseAllPipeline([dataForStep2])
         .then(() => {
           getDropConnections()({ config: undefined });
         })
     );
 };
 
-parseEverything();
-// startApiApp();
+// parseEverything();
+startApiApp();

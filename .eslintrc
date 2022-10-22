@@ -13,8 +13,8 @@
     "@typescript-eslint",
     "import"
   ],
-  "ignorePatterns": ["src/**/*.test.ts"],
   "rules": {
+    "indent": ["error", 2],
     "semi": "error",
     "quotes": [2, "single"],
     "eol-last": "error",
