@@ -32,9 +32,14 @@ const bodyStructure: TypeStructureItem = {
 const parseAsIs: ControllerAsIs = (req, res) => {
   res?.contentType('application/json');
 
-  const { result, errorField, errorMessage, errorComment } = validateBody(req.body, bodyStructure);
+  const {
+    result: validationResult,
+    errorField,
+    errorMessage,
+    errorComment,
+  } = validateBody(req.body, bodyStructure);
 
-  if (!result) {
+  if (!validationResult) {
     res?.status(400)?.send({ errorField, errorMessage, errorComment });
   }
 

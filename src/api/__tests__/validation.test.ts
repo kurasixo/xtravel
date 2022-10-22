@@ -266,5 +266,71 @@ describe('validation', () => {
       expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
       expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
     });
+
+    it('should validate null', () => {
+      const body = {
+        'number': null,
+        'string': 's',
+        'arrays': {
+          'arrayOfStr': ['s1', 's2'],
+          'arrayOfNumber': [1, 1],
+        }
+      };
+
+      const typeStructure: TypeStructureItem = {
+        number: 'number',
+        string: 'string',
+        arrays: {
+          randomValue: 'string',
+          arrayOfStr: ['string'],
+          arrayOfNumber: ['number']
+        }
+      };
+
+      expect(validateBody(body, typeStructure)).toEqual({
+        result: false,
+        errorField: 'number',
+        errorMessage: 'no key in body',
+      });
+
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+    });
+
+    it('should validate empty string', () => {
+      const body = {
+        'number': '',
+        'string': 's',
+        'arrays': {
+          'arrayOfStr': ['s1', 's2'],
+          'arrayOfNumber': [1, 1],
+        }
+      };
+
+      const typeStructure: TypeStructureItem = {
+        number: 'number',
+        string: 'string',
+        arrays: {
+          randomValue: 'string',
+          arrayOfStr: ['string'],
+          arrayOfNumber: ['number']
+        }
+      };
+
+      expect(validateBody(body, typeStructure)).toEqual({
+        result: false,
+        errorField: 'number',
+        errorMessage: 'no key in body',
+      });
+
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+    });
   });
 });
