@@ -20,7 +20,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   await fromInputElement?.click();
   await page.keyboard.type(from, { delay: 400 });
 
-  const fromInputFirstSuggestionElement = await suggestionsFields[0].$(innerSelectors.firstSuggestion);
+  const fromInputFirstSuggestionElement =
+    await suggestionsFields[0].$(innerSelectors.firstSuggestion);
   await fromInputFirstSuggestionElement?.click();
 
 
@@ -28,7 +29,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   await toInputElement?.click();
   await page.keyboard.type(to, { delay: 400 });
 
-  const toInputFirstSuggestionElement = await suggestionsFields[1].$(innerSelectors.firstSuggestion);
+  const toInputFirstSuggestionElement =
+    await suggestionsFields[1].$(innerSelectors.firstSuggestion);
   await toInputFirstSuggestionElement?.click();
 
   await page.keyboard.press('Tab');
@@ -51,7 +53,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
 
   const foundMonth = months.find((month) => month?.toLocaleLowerCase() === searchDateString);
   const indexOfFoundMonth = months.indexOf(foundMonth as string);
-  const allDateElements = await magicDateTimeElements[indexOfFoundMonth].$$(innerSelectors.calendarsDay);
+  const allDateElements =
+    await magicDateTimeElements[indexOfFoundMonth].$$(innerSelectors.calendarsDay);
   const dates = await Promise.all(allDateElements.map((dateElement) => {
     return dateElement.evaluate(td => td.textContent);
   }));

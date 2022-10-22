@@ -13,8 +13,10 @@ export const typesToFuncs = {
   '"number"': (x: unknown) => typeof x === 'number',
   '"string"': (x: unknown) => typeof x === 'string',
 
-  [JSON.stringify(['string'])]: (x: unknown) => Array.isArray(x) && x.every(xItem => typeof xItem === 'string'),
-  [JSON.stringify(['number'])]: (x: unknown) => Array.isArray(x) && x.every(xItem => typeof xItem === 'number'),
+  [JSON.stringify(['string'])]: (x: unknown) =>
+    Array.isArray(x) && x.every(xItem => typeof xItem === 'string'),
+  [JSON.stringify(['number'])]: (x: unknown) =>
+    Array.isArray(x) && x.every(xItem => typeof xItem === 'number'),
 };
 
 export type TypeStructureItem = {

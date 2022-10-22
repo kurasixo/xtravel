@@ -1,4 +1,9 @@
-import { typesToFuncs, buildKeys, TypeStructureItem, validateBody } from '../validation';
+import {
+  buildKeys,
+  typesToFuncs,
+  validateBody,
+  TypeStructureItem,
+} from '../validation';
 
 
 beforeAll(() => {
@@ -19,12 +24,23 @@ describe('validation', () => {
     });
 
     it('simple case', () => {
-      const testData: TypeStructureItem = { parserName: 'string', additionalArgs: { from: 'string', to: 'string', date: 'string' } };
-      expect(buildKeys(testData)).toEqual(['parserName', 'additionalArgs.from', 'additionalArgs.to', 'additionalArgs.date']);
+      const testData: TypeStructureItem = {
+        parserName: 'string',
+        additionalArgs: { from: 'string', to: 'string', date: 'string' },
+      };
+      expect(buildKeys(testData)).toEqual([
+        'parserName',
+        'additionalArgs.from',
+        'additionalArgs.to',
+        'additionalArgs.date',
+      ]);
     });
 
     it('simple case with array', () => {
-      const testData: TypeStructureItem = { parserName: ['string'], additionalArgs: { from: 'string' } };
+      const testData: TypeStructureItem = {
+        parserName: ['string'],
+        additionalArgs: { from: 'string' },
+      };
       expect(buildKeys(testData)).toEqual(['parserName', 'additionalArgs.from']);
     });
 
@@ -72,11 +88,15 @@ describe('validation', () => {
 
       expect(validateBody(body, typeStructure)).toEqual({ result: true });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(4);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(4);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('real simple good case-2', () => {
@@ -100,11 +120,15 @@ describe('validation', () => {
 
       expect(validateBody(body, typeStructure)).toEqual({ result: true });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(3);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(3);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
     });
 
     it('real simple bad case', () => {
@@ -133,11 +157,15 @@ describe('validation', () => {
         errorComment: 'Expected type "number", got string'
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('real simple bad case-2', () => {
@@ -166,11 +194,15 @@ describe('validation', () => {
         errorComment: 'Expected type "string", got number'
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('dummy good case', () => {
@@ -194,11 +226,15 @@ describe('validation', () => {
 
       expect(validateBody(body, typeStructure)).toEqual({ result: true });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
     });
 
     it('dummy bad case', () => {
@@ -227,11 +263,15 @@ describe('validation', () => {
         errorComment: 'Expected type "string", got number'
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('dummy bad case', () => {
@@ -260,11 +300,15 @@ describe('validation', () => {
         errorMessage: 'no key in body',
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(1);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('should validate null', () => {
@@ -293,11 +337,15 @@ describe('validation', () => {
         errorMessage: 'no key in body',
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
 
     it('should validate empty string', () => {
@@ -326,11 +374,15 @@ describe('validation', () => {
         errorMessage: 'no key in body',
       });
 
-      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"number"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['"string"'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
 
-      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
-      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>).mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["number"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
+      expect((typesToFuncs['["string"]'] as jest.Mock<boolean, [unknown]>)
+        .mock.calls.length).toEqual(0);
     });
   });
 });

@@ -45,7 +45,8 @@ export const uralAirlineProcessors: Processors<RawRoute> = {
     const flights = flightsRouteArray.map((flightEl) => getFlightAsObject($, $(flightEl)));
 
     const transfersRouteArray = Array.from(rootFlight.find(innerSelectors.transfersSelector));
-    const transfers = transfersRouteArray.map((transferEl) => getTransferAsObject($, $(transferEl)));
+    const transfers = transfersRouteArray
+      .map((transferEl) => getTransferAsObject($, $(transferEl)));
 
     return {
       flights,

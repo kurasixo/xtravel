@@ -11,7 +11,9 @@ import type { TypeStructureItem } from '../../validation';
 
 
 type ParserKey = 'aeroflot' | 'utair' | 'uralAirlines' | 's7';
-type ParsersObj = { [k in ParserKey]: (dataForSteps: AdditionalArgsType) => Promise<unknown> };
+type ParsersObj = {
+  [k in ParserKey]: (dataForSteps: AdditionalArgsType) => Promise<unknown>
+};
 
 const parsers: ParsersObj = {
   s7: parseS7Op,

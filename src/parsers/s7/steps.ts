@@ -16,7 +16,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   await page.keyboard.type(from.slice(0, 5), { delay: 300 });
 
   await page.waitForSelector(innerSelectors.fromInputFirstSuggestionSelector);
-  const fromInputFirstSuggestionElement = await page.$(innerSelectors.fromInputFirstSuggestionSelector);
+  const fromInputFirstSuggestionElement =
+    await page.$(innerSelectors.fromInputFirstSuggestionSelector);
   await fromInputFirstSuggestionElement?.click();
 
 
@@ -27,7 +28,8 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   await page.keyboard.type(to.slice(0, 5), { delay: 300 });
 
   await page.waitForSelector(innerSelectors.toInputFirstSuggestionSelector);
-  const toInputFirstSuggestionElement = await page.$(innerSelectors.toInputFirstSuggestionSelector);
+  const toInputFirstSuggestionElement =
+    await page.$(innerSelectors.toInputFirstSuggestionSelector);
   await toInputFirstSuggestionElement?.click();
 
 

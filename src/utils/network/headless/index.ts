@@ -43,4 +43,5 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   return pageContent;
 };
 
-export const getSiteHeadlessly: FnPromiseType<string> = memoNetworkWithCache(getSiteHeadlesslyWihoutMemo);
+export const getSiteHeadlessly: FnPromiseType<string> =
+  memoNetworkWithCache(getSiteHeadlesslyWihoutMemo);

@@ -52,7 +52,10 @@ const getFlightAsObject = ($: cheerio.Root, flightElement: cheerio.Cheerio): Fli
   };
 };
 
-export const getTransferAsObject = ($: cheerio.Root, transferElement: cheerio.Cheerio): RawTransfer => {
+export const getTransferAsObject = (
+  $: cheerio.Root,
+  transferElement: cheerio.Cheerio,
+): RawTransfer => {
   const [, transferTime] = transferElement.text().split('Пересадка: ');
 
   return {
@@ -73,7 +76,8 @@ export const s7Processors: Processors<RawRoute> = {
     const flights = flightsRouteArray.map((flightEl) => getFlightAsObject($, $(flightEl)));
 
     const transfersRouteArray = Array.from(rootFlight.find(innerSelectors.rootTransfersSelector));
-    const transfers = transfersRouteArray.map((transferEl) => getTransferAsObject($, $(transferEl)));
+    const transfers = transfersRouteArray
+      .map((transferEl) => getTransferAsObject($, $(transferEl)));
 
     return {
       flights,
