@@ -5,7 +5,7 @@ export const aeroflotSelectors: Selectors = {
   content: '.flight-search__inner',
 };
 
-export const innerSelectors = {
+export const processorSelectors = {
   rootFlightToSelector: '.time-destination__to',
   rootFlightFromSelector: '.time-destination__from',
   flightTimeSelector: '.time-destination__time',
@@ -19,11 +19,13 @@ export const innerSelectors = {
 
   flightPriceSelector: '.flight-search__price-text',
 
-  flightCompanyElementSelector: '.flight-search__company',
   flightNumberSelector: '.flight-search__company .flight-search__plane-number',
   flightCompanySelector: '.flight-search__company .flight-search__company-name',
   flightPlaneSelector: '.flight-search__plane-model',
+};
 
+export const stepsSelectors = {
+  flightCompanyElementSelector: '.flight-search__company',
   fromInputSelector: '#ticket-city-departure-0-booking',
   toInputSelector: '#ticket-city-arrival-0-booking',
   datePickerSelector: '#ticket-date-from-booking',

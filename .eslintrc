@@ -11,6 +11,7 @@
   "parserOptions": { "project": ["./tsconfig.json"] },
   "plugins": [
     "import",
+    "unicorn",
     "eslint-plugin-sort-imports-es6-autofix",
     "@typescript-eslint"
   ],
@@ -18,6 +19,7 @@
     "semi": "error",
     "eol-last": "error",
     "no-trailing-spaces": "error",
+    "unicorn/no-unused-properties": "error",
     "sort-imports-es6-autofix/sort-imports-es6": [2, {
       "ignoreCase": true,
       "ignoreMemberSort": true,
@@ -31,6 +33,6 @@
     "max-len": ["error", { "code": 98, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
 
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-empty-function": "off"
+    "@typescript-eslint/no-empty-function": "off",
   }
 }

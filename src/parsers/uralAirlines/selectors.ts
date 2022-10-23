@@ -5,7 +5,7 @@ export const uralAirlineSelectors: Selectors = {
   content: 'div[data-cy="flight-stop-tooltip"]',
 };
 
-export const innerSelectors = {
+export const stepsSelectors = {
   closeModalButtonSelector: 'button.uk-modal-close-outside',
 
   fromInputSelector: '#field32',
@@ -19,8 +19,9 @@ export const innerSelectors = {
 
   stopSelector: '.stops',
   fullRouteSelector: 'div[data-cy="flight-stop-tooltip"]',
-  fullPriceSelector: '.flights-list div.price',
+};
 
+export const processorSelectors = {
   priceSelector: 'span[data-cy="u6-price"]',
   flightsSelector: '.d-flex.mb-14',
   planeModelSelector: '.text-normal.mb-4.text-left .text-light.text-s.ml-10',

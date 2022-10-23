@@ -5,7 +5,19 @@ export const s7Selectors: Selectors = {
   content: 'div[data-qa="tripItem"]',
 };
 
-export const innerSelectors = {
+export const processorSelectors = {
+  priceSelector: 'div[data-qa="cost_tariffItem"]',
+  rootFlightsSelector: 'div[data-qa="description_segmentItem"]',
+  rootTransfersSelector: 'span.text_1la',
+
+  timeSelector: 'span.time_2cy',
+  airportSelector: 'div.row_2fG',
+  planeModelSelector: '.desc_3I4',
+  flightNumberSelector: 'span.flight_number_22v',
+  locationsSelector: 'div.location_1Wo',
+};
+
+export const stepsSelectors = {
   fromInputSelector: 'input[data-test="searchAirportDepartureBlock:suggestField:fieldInput:inputBase"]',
   fromInputFirstSuggestionSelector: 'li[data-test="searchAirportDepartureBlock:suggestField:suggestions:0:suggestion"]',
 
@@ -17,15 +29,6 @@ export const innerSelectors = {
 
   buttonSelector: 'button[data-qa="submit_searchFlight"]',
 
-  priceSelector: 'div[data-qa="cost_tariffItem"]',
   stopSelector: '.stops_1_p',
-
-  rootFlightsSelector: 'div[data-qa="description_segmentItem"]',
-  rootTransfersSelector: 'span.text_1la',
-
-  timeSelector: 'span.time_2cy',
-  airportSelector: 'div.row_2fG',
-  planeModelSelector: '.desc_3I4',
-  flightNumberSelector: 'span.flight_number_22v',
-  locationsSelector: 'div.location_1Wo',
+  dateTimeSelector: 'time',
 };

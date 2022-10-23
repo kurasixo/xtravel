@@ -5,7 +5,23 @@ export const utairSelectors: Selectors = {
   content: '.FlightInfo.FlightInfoBlock-Tooltip',
 };
 
-export const innerSelectors = {
+export const processorSelectors = {
+  innerPrices: '#innerPrice',
+  flightsSelector: '.FlightInfo-table .FlightInfo-row',
+  transfersSelector: '.FlightInfo-table .FlightInfo-stopover-row:nth-child(2)',
+
+  planeModelSelector: '.FlightInfo-plane',
+  flightCompanySelector: '.FlightInfo-ak',
+  flightNumberSelector: '.FlightInfo-flight',
+
+  timeFromSelector: '.FlightInfo-departure-time',
+  timeToSelector: '.FlightInfo-arrival-time',
+
+  fromAirportNameSelector: '.FlightInfo-departure .FlightInfo-airport',
+  toAirportNameSelector: '.FlightInfo-arrival .FlightInfo-airport',
+};
+
+export const stepsSelectors = {
   suggestionsFields: '.SearchWidget-box.-city',
   firstSuggestion: '.CityAutocomplete-name',
 
@@ -21,5 +37,5 @@ export const innerSelectors = {
 
   flights: '.FlightInfo.FlightInfoBlock-Tooltip',
   prices: '.FlightRow-Cell .OfferControl',
-  innerPrices: '#innerPrice',
+  flightRowSelector: '.FlightRow',
 };

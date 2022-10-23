@@ -1,42 +1,43 @@
 import cheerio from 'cheerio';
 
 import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
-import { innerSelectors } from './selectors';
+import { stepsSelectors } from './selectors';
 import type { StepFn } from '../parsers.types';
+
 
 // move to seperate steps
 const fillFlightForm: StepFn = async (page, data: string[]) => {
   const [from, to, date] = data;
 
-  const closeButton = await page.$(innerSelectors.closeModalButtonSelector);
+  const closeButton = await page.$(stepsSelectors.closeModalButtonSelector);
   await closeButton?.click();
 
   const clickableInputs = await page.$$('.city-select');
   await clickableInputs[0].click();
 
-  const fromInputElement = await page.$(innerSelectors.fromInputSelector);
+  const fromInputElement = await page.$(stepsSelectors.fromInputSelector);
   await fromInputElement?.click();
   await fromInputElement?.focus();
   await page.keyboard.type(from.slice(0, 5));
 
-  await page.waitForSelector(innerSelectors.firstSuggestionSelector);
-  let firstSuggestion = await page.$(innerSelectors.firstSuggestionSelector);
+  await page.waitForSelector(stepsSelectors.firstSuggestionSelector);
+  let firstSuggestion = await page.$(stepsSelectors.firstSuggestionSelector);
   await firstSuggestion?.click();
 
 
   await clickableInputs[1].click();
 
-  const toInputElement = await page.$(innerSelectors.toInputSelector);
+  const toInputElement = await page.$(stepsSelectors.toInputSelector);
   await toInputElement?.click();
   await toInputElement?.focus();
 
   await page.keyboard.type(to.slice(0, 5));
-  await page.waitForSelector(innerSelectors.firstSuggestionSelector);
-  firstSuggestion = await page.$(innerSelectors.firstSuggestionSelector);
+  await page.waitForSelector(stepsSelectors.firstSuggestionSelector);
+  firstSuggestion = await page.$(stepsSelectors.firstSuggestionSelector);
   await firstSuggestion?.click();
 
 
-  const datePicker = await page.$(innerSelectors.datePickerSelector);
+  const datePicker = await page.$(stepsSelectors.datePickerSelector);
   await datePicker?.click();
   await datePicker?.focus();
 
@@ -64,17 +65,17 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
 
   const dateElementToClick = allDateElements[indexOfFoundDate];
   await dateElementToClick?.click();
-  const reverseDatePicker = await page.$(innerSelectors.reverseDatePickerSelector);
+  const reverseDatePicker = await page.$(stepsSelectors.reverseDatePickerSelector);
   await reverseDatePicker?.click();
 
-  await page.waitForSelector(innerSelectors.buttonSelector);
-  const searchButton = await page.$(innerSelectors.buttonSelector);
+  await page.waitForSelector(stepsSelectors.buttonSelector);
+  const searchButton = await page.$(stepsSelectors.buttonSelector);
   // @ts-ignore
   await searchButton?.evaluate(searchButtonEl => searchButtonEl.click());
 
   await page.waitForNavigation(defaultWaitUntilOptions);
-  await page.waitForSelector(innerSelectors.stopSelector, defaultWaitUntilOptions);
-  const allStops = await page.$$(innerSelectors.stopSelector);
+  await page.waitForSelector(stepsSelectors.stopSelector, defaultWaitUntilOptions);
+  const allStops = await page.$$(stepsSelectors.stopSelector);
 
   const flightsContainers = await page.$$('.delta.col-auto');
 
@@ -88,12 +89,12 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
     const pricesContent = await prices?.evaluate((pricesEl) => pricesEl.outerHTML);
 
     await allStops[i].hover();
-    await page.waitForSelector(innerSelectors.fullRouteSelector);
-    const fullRoute = await page.$(innerSelectors.fullRouteSelector);
+    await page.waitForSelector(stepsSelectors.fullRouteSelector);
+    const fullRoute = await page.$(stepsSelectors.fullRouteSelector);
     const routeItemHtmlContent = await fullRoute?.evaluate((route) => route.outerHTML);
 
     root.append(routeItemHtmlContent as string);
-    dom(dom(innerSelectors.fullRouteSelector)[i]).append(pricesContent as string);
+    dom(dom(stepsSelectors.fullRouteSelector)[i]).append(pricesContent as string);
   }
 
   const result = dom.html();

@@ -1,35 +1,36 @@
-import { innerSelectors } from './selectors';
+import { processorSelectors } from './selectors';
 import type { Flight, Processors, RawRoute, RawTransfer } from '../parsers.types';
 
 
 const getFlightAsObject = (flightElement: cheerio.Cheerio): Flight | null => {
-  const flightObjectElement = flightElement.find(innerSelectors.rootFlightFromSelector);
-  const toFlightObjectElement = flightElement.find(innerSelectors.rootFlightToSelector);
+  const flightObjectElement = flightElement.find(processorSelectors.rootFlightFromSelector);
+  const toFlightObjectElement = flightElement.find(processorSelectors.rootFlightToSelector);
 
   if (flightObjectElement.text() === '') {
     return null;
   }
 
-  const flightNumber = flightElement.find(innerSelectors.flightNumberSelector).text();
-  const flightCompany = flightElement.find(innerSelectors.flightCompanySelector).text();
-  const planeModel = flightElement.find(innerSelectors.flightPlaneSelector).text();
+  const flightNumber = flightElement.find(processorSelectors.flightNumberSelector).text();
+  const flightCompany = flightElement.find(processorSelectors.flightCompanySelector).text();
+  const planeModel = flightElement.find(processorSelectors.flightPlaneSelector).text();
 
   const flightObject: Flight = {
     planeModel,
     flightNumber,
     flightCompany,
 
-    timeFrom: flightObjectElement.find(innerSelectors.flightTimeSelector).text(),
-    timeTo: toFlightObjectElement.find(innerSelectors.flightTimeSelector).text(),
+    timeFrom: flightObjectElement.find(processorSelectors.flightTimeSelector).text(),
+    timeTo: toFlightObjectElement.find(processorSelectors.flightTimeSelector).text(),
 
     fromAirport: {
-      name: flightObjectElement.find(innerSelectors.flightAirportNameSelector).text(),
-      terminal: flightObjectElement.find(innerSelectors.flightAirportTerminalSelector).text(),
+      name: flightObjectElement.find(processorSelectors.flightAirportNameSelector).text(),
+      terminal: flightObjectElement.find(processorSelectors.flightAirportTerminalSelector).text(),
     },
 
     toAirport: {
-      name: toFlightObjectElement.find(innerSelectors.flightAirportNameSelector).text(),
-      terminal: toFlightObjectElement.find(innerSelectors.flightAirportTerminalSelector).text(),
+      name: toFlightObjectElement.find(processorSelectors.flightAirportNameSelector).text(),
+      terminal: toFlightObjectElement
+        .find(processorSelectors.flightAirportTerminalSelector).text(),
     }
   };
 
@@ -37,9 +38,10 @@ const getFlightAsObject = (flightElement: cheerio.Cheerio): Flight | null => {
 };
 
 export const getTransfer = (transferElement: cheerio.Cheerio) => {
-  const transferRoot = transferElement.find(innerSelectors.flightTransferSelector);
-  const transferTime = transferRoot.find(innerSelectors.flightTransferTimeSelector).text();
-  const transferChange = transferRoot.find(innerSelectors.flightTransferChangeSelector).text();
+  const transferRoot = transferElement.find(processorSelectors.flightTransferSelector);
+  const transferTime = transferRoot.find(processorSelectors.flightTransferTimeSelector).text();
+  const transferChange = transferRoot
+    .find(processorSelectors.flightTransferChangeSelector).text();
 
   return { transferTime, transferChange };
 };
@@ -47,10 +49,10 @@ export const getTransfer = (transferElement: cheerio.Cheerio) => {
 export const aeroflotProcessors: Processors<RawRoute> = {
   each: (_, flight, $) => {
     const rootFlight = $(flight);
-    const flightsRoute = rootFlight.find(innerSelectors.rootFlightRowSelector);
+    const flightsRoute = rootFlight.find(processorSelectors.rootFlightRowSelector);
     const flightsRouteArray = Array.from(flightsRoute);
 
-    const price = rootFlight.find(innerSelectors.flightPriceSelector).text();
+    const price = rootFlight.find(processorSelectors.flightPriceSelector).text();
 
     const flightsWithTransfers = flightsRouteArray
       .reduce((acc: { flights: Flight[], transfers: RawTransfer[] }, el) => {

@@ -1,4 +1,4 @@
-import { innerSelectors } from './selectors';
+import { processorSelectors } from './selectors';
 import type {
   Flight,
   Processors,
@@ -7,17 +7,17 @@ import type {
 } from '../parsers.types';
 
 
-
 const getFlightAsObject = ($: cheerio.Root, flightElement: cheerio.Element): Flight => {
-  const planeModel = $(flightElement).find('.FlightInfo-plane').text();
-  const flightCompany = $(flightElement).find('.FlightInfo-ak').text();
-  const flightNumber = $(flightElement).find('.FlightInfo-flight').text();
+  const planeModel = $(flightElement).find(processorSelectors.planeModelSelector).text();
+  const flightCompany = $(flightElement).find(processorSelectors.flightCompanySelector).text();
+  const flightNumber = $(flightElement).find(processorSelectors.flightNumberSelector).text();
 
-  const timeFrom = $(flightElement).find('.FlightInfo-departure-time').text();
-  const timeTo = $(flightElement).find('.FlightInfo-arrival-time').text();
+  const timeFrom = $(flightElement).find(processorSelectors.timeFromSelector).text();
+  const timeTo = $(flightElement).find(processorSelectors.timeToSelector).text();
 
-  const fromAirportName = $(flightElement).find('.FlightInfo-departure .FlightInfo-airport').text();
-  const toAirportName = $(flightElement).find('.FlightInfo-arrival .FlightInfo-airport').text();
+  const fromAirportName = $(flightElement)
+    .find(processorSelectors.fromAirportNameSelector).text();
+  const toAirportName = $(flightElement).find(processorSelectors.toAirportNameSelector).text();
 
   return {
     planeModel,
@@ -52,13 +52,13 @@ const getTransferAsObject = ($: cheerio.Root, transferElement: cheerio.Element):
 export const utairProcessors: Processors<RawRoute> = {
   each: (_, flight, $) => {
     const rootFlight = $(flight);
-    const prices = Array.from(rootFlight.find(innerSelectors.innerPrices))
+    const prices = Array.from(rootFlight.find(processorSelectors.innerPrices))
       .map(el => ({ value: $(el).text(), currency: '' }));
 
-    const flights = Array.from(rootFlight.find('.FlightInfo-table .FlightInfo-row'))
+    const flights = Array.from(rootFlight.find(processorSelectors.flightsSelector))
       .map((el) => getFlightAsObject($, el));
 
-    const transfers = Array.from(rootFlight.find('.FlightInfo-table .FlightInfo-stopover-row:nth-child(2)'))
+    const transfers = Array.from(rootFlight.find(processorSelectors.transfersSelector))
       .map((el) => getTransferAsObject($, el));
 
     return {
