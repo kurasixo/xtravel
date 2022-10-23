@@ -3,7 +3,8 @@ import * as logFunctions from '../log';
 
 beforeAll(() => {
   logFunctions.enableLog();
-  jest.spyOn(logFunctions, 'log');
+  jest.spyOn(logFunctions, 'log')
+    .mockImplementation((...args) => args);
 });
 
 afterEach(() => {
