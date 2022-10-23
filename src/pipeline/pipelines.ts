@@ -1,17 +1,15 @@
-import { createPipeline, createSyncPipeline } from './createPipeline';
-import { getPutToMongoOperation, getParseOperation, getDropConnections } from './operations';
-import { visaMongoConfig, flightMongoConfig } from '../db/mongoService';
-
-import { RusNoVisaParserConfig, rusNoVisaParserConfig } from '../parsers/rusNoVisa';
-import { gets7ParserConfig, S7ParserConfig } from '../parsers/s7';
-import { getUtairParserConfig, UtairParserConfig } from '../parsers/utair';
 import { AeroflotParserConfig, getAeroflotParserConfig } from '../parsers/aeroflot';
+import { createPipeline, createSyncPipeline } from './createPipeline';
+import { flightMongoConfig,visaMongoConfig } from '../db/mongoService';
+import { getDropConnections,getParseOperation, getPutToMongoOperation } from './operations';
+import { gets7ParserConfig, S7ParserConfig } from '../parsers/s7';
 import { getUralAirlineParserConfig, UralAirlineParserConfig } from '../parsers/uralAirlines';
-
+import { getUtairParserConfig, UtairParserConfig } from '../parsers/utair';
+import { RusNoVisaParserConfig, rusNoVisaParserConfig } from '../parsers/rusNoVisa';
+import type { AdditionalArgsType, RouteByName } from '../parsers/parsers.types';
+import type { BaseMongoOperationConfig  } from '../db/mongoService';
 import type { PipelineConfigItem } from './createPipeline';
 import type { VisaInfo, VisaInfoRaw } from '../parsers/rusNoVisa/types';
-import type { BaseMongoOperationConfig  } from '../db/mongoService';
-import type { AdditionalArgsType, RouteByName } from '../parsers/parsers.types';
 
 
 type T<C, R, P> = PipelineConfigItem<C, R, P>;

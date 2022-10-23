@@ -1,8 +1,8 @@
 import {
   buildKeys,
   typesToFuncs,
-  validateBody,
   TypeStructureItem,
+  validateBody,
 } from '../validation';
 
 

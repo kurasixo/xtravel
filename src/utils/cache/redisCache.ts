@@ -1,6 +1,6 @@
-import type { FnPromiseType } from '../../types';
-import { normalizeHtmlContent } from './normalizeHtmlContent';
 import { connectRedis } from './redis/utils';
+import { normalizeHtmlContent } from './normalizeHtmlContent';
+import type { FnPromiseType } from '../../types';
 
 
 type ValueFromCache = { content: string; timestamp: number };

@@ -1,15 +1,15 @@
 import cheerio from 'cheerio';
-import type {
-  FnPromiseType,
-} from '../../types';
 
 import type {
+  AdditionalArgsType,
   Normalizer,
   ParserConfig,
   Processors,
   Selectors,
-  AdditionalArgsType,
 } from '../parsers.types';
+import type {
+  FnPromiseType,
+} from '../../types';
 
 
 export type ParseOperationConfig<E, O> = [

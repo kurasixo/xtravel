@@ -1,6 +1,7 @@
-import { mongoLog } from '../utils/log';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+
 import { isDebug, isDev } from '../utils/helpers';
+import { mongoLog } from '../utils/log';
 
 
 const mongoUserWithPassword = `${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}`;

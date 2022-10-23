@@ -1,5 +1,5 @@
-import type { VisaInfoRaw } from './types';
 import type { Processors } from '../parsers.types';
+import type { VisaInfoRaw } from './types';
 
 
 export const rusNoVisaProcessors: Processors<VisaInfoRaw> = {

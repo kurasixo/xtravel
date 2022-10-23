@@ -1,9 +1,9 @@
-import { parse } from './parse';
-import { getVisas } from './visas';
-import { parseAll } from './parseAll';
-import { getFlights } from './flights';
-
 import type { Application } from 'express';
+
+import { getFlights } from './flights';
+import { getVisas } from './visas';
+import { parse } from './parse';
+import { parseAll } from './parseAll';
 import type { Controller } from '../../apiTypes';
 
 

@@ -1,12 +1,10 @@
 import type {
-  Route,
-  RawRoute,
-  RouteByName,
-
+  AdditionalArgsType,
   Price,
   RawPrice,
-
-  AdditionalArgsType,
+  RawRoute,
+  Route,
+  RouteByName,
 } from '../parsers.types';
 
 

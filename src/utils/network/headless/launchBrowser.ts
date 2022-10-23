@@ -1,9 +1,8 @@
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder';
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
-
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder';
 import type { Browser, Page, PuppeteerLaunchOptions, WaitForOptions } from 'puppeteer';
 
 import { isDebug } from '../../helpers';

@@ -1,7 +1,8 @@
 import type { Page, } from 'puppeteer';
-import type { StepFn } from '../parsers.types';
+
 import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
 import { innerSelectors } from './selectors';
+import type { StepFn } from '../parsers.types';
 
 
 // move to seperate steps

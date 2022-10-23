@@ -1,8 +1,8 @@
 import { innerSelectors } from './selectors';
 import type {
   Flight,
-  RawRoute,
   Processors,
+  RawRoute,
   RawTransfer,
 } from '../parsers.types';
 

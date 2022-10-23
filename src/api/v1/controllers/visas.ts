@@ -1,4 +1,4 @@
-import { visaMongoConfig, getFromMongo } from '../../../db/mongoService';
+import { getFromMongo,visaMongoConfig } from '../../../db/mongoService';
 import type { Controller, ControllerAsIs } from '../../apiTypes';
 
 

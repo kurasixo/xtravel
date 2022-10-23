@@ -1,12 +1,11 @@
 import { aeroflotConfig as config } from './config';
+import { getSiteHeadlessly } from '../../utils/network/headless';
 import { aeroflotNormalizer as normalizer } from './normalizer';
 import { aeroflotProcessors as processors } from './processors';
 import { aeroflotSelectors as selectors } from './selectors';
 import { aeroflotSteps as steps } from './steps';
-
-import { getSiteHeadlessly } from '../../utils/network/headless';
-import type { ParseOperationConfig } from '../parser';
 import type { AdditionalArgsType, RawRoute, RouteByName } from '../parsers.types';
+import type { ParseOperationConfig } from '../parser';
 
 
 export type AeroflotParserConfig = ParseOperationConfig<RawRoute, RouteByName>;

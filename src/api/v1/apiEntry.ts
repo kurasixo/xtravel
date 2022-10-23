@@ -1,11 +1,11 @@
 import express from 'express';
 import type { Application } from 'express';
 
-import { initControllers } from './controllers';
 import { apiLog } from '../../utils/log';
 import { connectMongo } from '../../db/utils';
-import { getDropConnections } from '../../pipeline/operations';
 import { connectRedis } from '../../utils/cache/redis/utils';
+import { getDropConnections } from '../../pipeline/operations';
+import { initControllers } from './controllers';
 
 
 const apiApp = express();

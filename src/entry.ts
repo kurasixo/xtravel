@@ -1,6 +1,6 @@
-import { isDebug, isDev } from './utils/helpers';
-// eslint-disable-next-line
+/* eslint-disable */
 import * as dotenv from 'dotenv';
+
 const devDotenv = '.development.env';
 const prodDotend = '.production.env';
 
@@ -9,19 +9,20 @@ const dotEnvToUse = isDev() || isDebug()
   : prodDotend;
 
 dotenv.config({ path: dotEnvToUse });
+/* eslint-enable */
 
+import { dropMongo, flightMongoConfig, visaMongoConfig } from './db/mongoService';
+import { getDropConnections } from './pipeline/operations';
+import { isDebug, isDev } from './utils/helpers';
 import {
-  parseS7AndPutMongo,
   parseAeroflotAndPutMongo,
+  parseAllPipeline,
+  parseRusNoVisaAndPutMongo,
+  parseS7AndPutMongo,
   parseUralAirlinesAndPutMongo,
   parseUtairAndPutMongo,
-
-  parseRusNoVisaAndPutMongo,
-  parseAllPipeline,
 } from './pipeline/pipelines';
-import { dropMongo, flightMongoConfig, visaMongoConfig } from './db/mongoService';
 import { startApiApp } from './api/v1/apiEntry';
-import { getDropConnections } from './pipeline/operations';
 
 
 const parseEverything = () => {

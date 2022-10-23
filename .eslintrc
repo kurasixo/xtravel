@@ -11,14 +11,19 @@
   "parserOptions": { "project": ["./tsconfig.json"] },
   "plugins": [
     "import",
-    "simple-import-sort",
+    "eslint-plugin-sort-imports-es6-autofix",
     "@typescript-eslint"
   ],
   "rules": {
     "semi": "error",
     "eol-last": "error",
     "no-trailing-spaces": "error",
-    // "simple-import-sort/imports": "error",
+    "sort-imports-es6-autofix/sort-imports-es6": [2, {
+      "ignoreCase": true,
+      "ignoreMemberSort": true,
+
+      "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+    }],
 
     "indent": ["error", 2],
     "quotes": [2, "single"],

@@ -1,12 +1,11 @@
 import { uralAirlineConfig as config } from './config';
+import { getSiteHeadlessly } from '../../utils/network/headless';
 import { uralAirlineNormalizer as normalizer } from './normalizer';
 import { uralAirlineProcessors as processors } from './processors';
 import { uralAirlineSelectors as selectors } from './selectors';
 import { uralAirlineSteps as steps } from './steps';
-
-import { getSiteHeadlessly } from '../../utils/network/headless';
-import type { ParseOperationConfig } from '../parser';
 import type { AdditionalArgsType, RawRoute, RouteByName } from '../parsers.types';
+import type { ParseOperationConfig } from '../parser';
 
 
 export type UralAirlineParserConfig = ParseOperationConfig<RawRoute, RouteByName>;

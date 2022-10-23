@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-import { networkLog } from '../log';
 import { asyncWithRetryOnError } from '../retry';
 import { memoNetworkWithCache } from '../cache/redisCache';
-
+import { networkLog } from '../log';
 import type { FnPromiseType } from '../../types';
 
 

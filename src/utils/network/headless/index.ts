@@ -1,11 +1,10 @@
-import { networkLog } from '../../log';
 import { asyncWithRetryOnError } from '../../retry';
-import { memoNetworkWithCache } from '../../cache/redisCache';
-
-import type { FnPromiseType } from '../../../types';
-import type { SingleStep } from '../../../parsers/parsers.types';
 import { defaultWaitUntilOptions, launchHeadlessBrowser, stopHeadlessBrowser } from './launchBrowser';
 import { goBySteps } from './goBySteps';
+import { memoNetworkWithCache } from '../../cache/redisCache';
+import { networkLog } from '../../log';
+import type { FnPromiseType } from '../../../types';
+import type { SingleStep } from '../../../parsers/parsers.types';
 
 
 const getRecordingName = (site: string): string => {

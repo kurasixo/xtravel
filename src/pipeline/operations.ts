@@ -1,12 +1,12 @@
-import type { BaseMongoOperationConfig } from '../db/mongoService';
 import type { Document } from 'mongodb';
-import type { ParseOperationConfig } from '../parsers/parser';
 
 import { createOperation } from './createOperation';
-import { putToMongo } from '../db/mongoService';
-import { parserWrapper } from '../parsers/parser';
 import { disconnectMongo } from '../db/utils';
 import { disconnectRedis } from '../utils/cache/redis/utils';
+import { parserWrapper } from '../parsers/parser';
+import { putToMongo } from '../db/mongoService';
+import type { BaseMongoOperationConfig } from '../db/mongoService';
+import type { ParseOperationConfig } from '../parsers/parser';
 
 
 export const getParseOperation = <C, R>() => {
