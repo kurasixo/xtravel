@@ -59,7 +59,7 @@ type ValidationResult = {
   errorComment?: string;
 }
 
-
+// add memo
 export const validateBody = (
   body: Request['body'],
   typeStructure: TypeStructureItem,

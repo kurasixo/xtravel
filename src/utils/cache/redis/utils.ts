@@ -26,7 +26,7 @@ const getUtilsForRedisConnection = () => {
   const disconnectRedis = () => {
     if (!isConnected) {
       redisLog('redis is not connected');
-      return new Promise<RedisClientType>((resolveWith) => resolveWith(client));
+      throw new Error('redis is not connected');
     }
 
     return client.disconnect().then(() => {

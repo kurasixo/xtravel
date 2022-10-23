@@ -34,12 +34,13 @@ export const putToCache = (key: string, value: ValueFromCache) => {
 };
 
 // export for tests only
-export const getFromCache = (key: string) => {
+export const getFromCache = (key: string): Promise<string | null> => {
   return connectRedis().then((redisClient) => {
     return redisClient.get(key);
   });
 };
 
+// need to check if two same functions calles in one time
 export const memoNetworkWithCache = (
   fnPromise: FnPromiseType<string>,
   refreshTime = TWENTY_FOUR_HOURS,
