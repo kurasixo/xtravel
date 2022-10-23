@@ -28,9 +28,5 @@ export const normalizeHtmlContent = (response: string) => {
     dom(svg).remove();
   });
 
-  dom('path').each((_, path) => {
-    dom(path).remove();
-  });
-
   return dom.html();
 };

@@ -7,15 +7,18 @@ type ValueFromCache = { content: string; timestamp: number };
 
 const TWENTY_FOUR_HOURS = 2 * 12 * 60 * 60 * 1000;
 
-const hashFn = (args: unknown[]): string => {
+// export for tests only
+export const hashFn = (args: unknown[]): string => {
   return JSON.stringify(args);
 };
 
-const objectToString = <T>(object: T): string => {
+// export for tests only
+export const objectToString = <T>(object: T): string => {
   return JSON.stringify(object);
 };
 
-const stringToObject = <T>(string: string | null): T | null => {
+// export for tests only
+export const stringToObject = <T>(string: string | null): T | null => {
   if (string === null) {
     return null;
   }
@@ -23,13 +26,15 @@ const stringToObject = <T>(string: string | null): T | null => {
   return JSON.parse(string);
 };
 
-const putToCache = (key: string, value: ValueFromCache) => {
+// export for tests only
+export const putToCache = (key: string, value: ValueFromCache) => {
   return connectRedis().then((redisClient) => {
     return redisClient.set(key, objectToString(value));
   });
 };
 
-const getFromCache = (key: string) => {
+// export for tests only
+export const getFromCache = (key: string) => {
   return connectRedis().then((redisClient) => {
     return redisClient.get(key);
   });

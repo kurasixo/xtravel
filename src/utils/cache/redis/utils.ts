@@ -7,7 +7,6 @@ import { redisLog } from '../../log';
 const redisUri = 'redis://localhost:6379';
 
 const getUtilsForRedisConnection = () => {
-
   const client: RedisClientType = createClient({ url: redisUri });
   let isConnected = false;
 
