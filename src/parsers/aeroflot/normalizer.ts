@@ -1,5 +1,5 @@
 import type {
-  AdditionalArgsType,
+  ParserStepsArguments,
   Price,
   RawPrice,
   RawRoute,
@@ -38,10 +38,9 @@ const normalizePrice = (rawPriceValue: string | null): number => {
   return +rawPriceValue.replace(numericalRegex, '');
 };
 
-export const aeroflotNormalizer = (
-  rawRoutes: RawRoute[],
-  additionalArgs: AdditionalArgsType,
-): RouteByName[] => {
+export const getAeroflotNormalizer = (
+  parserStepsArguments: ParserStepsArguments,
+) => (rawRoutes: RawRoute[]): RouteByName[] => {
   const routes: Route[] = rawRoutes.map((rawRoute) => {
     const normalizedPrice: Price = {
       value: normalizePrice((rawRoute.price as RawPrice).value),
@@ -62,7 +61,7 @@ export const aeroflotNormalizer = (
     };
   });
 
-  const [from, to] = additionalArgs[0].dataForStep;
+  const { from, to } = parserStepsArguments;
   const routeName = `${from}_${to}`;
 
   return [{

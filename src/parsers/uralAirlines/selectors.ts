@@ -6,6 +6,7 @@ export const uralAirlineSelectors: Selectors = {
 };
 
 export const stepsSelectors = {
+  clickableInputElementSelector: '.city-select',
   closeModalButtonSelector: 'button.uk-modal-close-outside',
 
   fromInputSelector: '#field32',
@@ -14,9 +15,14 @@ export const stepsSelectors = {
   firstSuggestionSelector: '.city-select-dropdown__list:first-child',
 
   datePickerSelector: '#firstDatePicker',
+  dateTimeSelector: '.show-calendar table.table-condensed',
+  dateTimeMonthsSelector: 'thead tr th.month',
+  notDisabledMonthsSelector: 'td:not(.disabled)',
   reverseDatePickerSelector: 'div.calendar-switch-direction-main button',
   buttonSelector: '.ts-v2__container-button a.ticket-search__btn', // bad selector due to selecting <a> in pup
 
+  faresSelector: '.fares',
+  flightsContainerSelector: '.delta.col-auto',
   stopSelector: '.stops',
   fullRouteSelector: 'div[data-cy="flight-stop-tooltip"]',
 };

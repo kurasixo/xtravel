@@ -1,19 +1,20 @@
 import type { Page } from 'puppeteer';
 
-import type { SingleStep } from '../../../parsers/parsers.types';
+import type { StepFnPageOnly } from '../../../parsers/parsers.types';
 
 
 type StepResult = Promise<void | string>;
 
-export const goBySteps = (steps: SingleStep[], page: Page): StepResult => {
+export const goBySteps = (page: Page, steps: StepFnPageOnly[]): StepResult => {
   const initalPromise: StepResult = new Promise((resolve) => resolve());
-  const stepsResPromise = steps.reduce((acc: StepResult, { stepFn, dataForStep }) => {
+  const stepsResPromise = steps.reduce((acc: StepResult, stepFn) => {
     if (acc === initalPromise) {
-      acc = stepFn(page, dataForStep);
+      acc = stepFn(page);
       return acc;
     }
 
-    acc.then(() => stepFn(page, dataForStep));
+    // haha silly mistake
+    acc = acc.then(() => stepFn(page));
     return acc;
   }, initalPromise);
 

@@ -1,91 +1,74 @@
-import cheerio from 'cheerio';
-
+import { clickBySelector, clickHackedAndWait, fillDatepickerUral, fillInputUral } from '../parser/utilsSteps';
 import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
+import { Page } from 'puppeteer';
+import { prepareCheerioRoot } from '../parser/utils';
 import { stepsSelectors } from './selectors';
-import type { StepFn } from '../parsers.types';
+import type { StepObject } from '../parsers.types';
 
 
-// move to seperate steps
-const fillFlightForm: StepFn = async (page, data: string[]) => {
-  const [from, to, date] = data;
+const closeModal = (page: Page) =>
+  clickBySelector(page, stepsSelectors.closeModalButtonSelector);
 
-  const closeButton = await page.$(stepsSelectors.closeModalButtonSelector);
-  await closeButton?.click();
+const fillInputFrom = async (
+  page: Page,
+  from: string,
+) => {
+  return await fillInputUral(
+    page,
+    'from',
+    from,
+    stepsSelectors.clickableInputElementSelector,
+    stepsSelectors.fromInputSelector,
+    stepsSelectors.firstSuggestionSelector,
+  );
+};
 
-  const clickableInputs = await page.$$('.city-select');
-  await clickableInputs[0].click();
+const fillInputTo = async (
+  page: Page,
+  to: string,
+) => {
+  return await fillInputUral(
+    page,
+    'to',
+    to,
+    stepsSelectors.clickableInputElementSelector,
+    stepsSelectors.toInputSelector,
+    stepsSelectors.firstSuggestionSelector,
+  );
+};
 
-  const fromInputElement = await page.$(stepsSelectors.fromInputSelector);
-  await fromInputElement?.click();
-  await fromInputElement?.focus();
-  await page.keyboard.type(from.slice(0, 5));
+const fillInputDatepicker = async (
+  page: Page,
+  date: string,
+) => {
+  return await fillDatepickerUral(
+    page,
+    date,
+    stepsSelectors.datePickerSelector,
+    stepsSelectors.dateTimeSelector,
+    stepsSelectors.dateTimeMonthsSelector,
+    stepsSelectors.notDisabledMonthsSelector,
+  );
+};
 
-  await page.waitForSelector(stepsSelectors.firstSuggestionSelector);
-  let firstSuggestion = await page.$(stepsSelectors.firstSuggestionSelector);
-  await firstSuggestion?.click();
+const clickReverseDatepick = (page: Page) =>
+  clickBySelector(page, stepsSelectors.reverseDatePickerSelector);
 
+const clickAndWaitWithBindSelector = (page: Page) =>
+  clickHackedAndWait(page, stepsSelectors.buttonSelector);
 
-  await clickableInputs[1].click();
-
-  const toInputElement = await page.$(stepsSelectors.toInputSelector);
-  await toInputElement?.click();
-  await toInputElement?.focus();
-
-  await page.keyboard.type(to.slice(0, 5));
-  await page.waitForSelector(stepsSelectors.firstSuggestionSelector);
-  firstSuggestion = await page.$(stepsSelectors.firstSuggestionSelector);
-  await firstSuggestion?.click();
-
-
-  const datePicker = await page.$(stepsSelectors.datePickerSelector);
-  await datePicker?.click();
-  await datePicker?.focus();
-
-  const [day, month, year] = date.split('.');
-  const dateSelectorString = new Date(+year, +month - 1, +day);
-  const monthInLocale = dateSelectorString.toLocaleString('ru', { month: 'long' });
-
-  const searchDateString = monthInLocale + ' ' + year;
-
-  const magicDateTimeElements = await page.$$('.show-calendar table.table-condensed');
-  const months = await Promise.all(magicDateTimeElements.map((table) => {
-    return table.$('thead tr th.month')
-      .then(tableHeader => tableHeader?.evaluate(th => th.textContent));
-  }));
-
-  const foundMonth = months.find((month) => month === searchDateString);
-  const indexOfFoundMonth = months.indexOf(foundMonth);
-
-  const allDateElements = await magicDateTimeElements[indexOfFoundMonth].$$('td:not(.disabled)');
-  const dates = await Promise.all(allDateElements.map((dateElement) => {
-    return dateElement.evaluate(td => td.textContent);
-  }));
-  const foundDate = dates.find((date) => date?.trim() === day);
-  const indexOfFoundDate = dates.indexOf(foundDate as string);
-
-  const dateElementToClick = allDateElements[indexOfFoundDate];
-  await dateElementToClick?.click();
-  const reverseDatePicker = await page.$(stepsSelectors.reverseDatePickerSelector);
-  await reverseDatePicker?.click();
-
-  await page.waitForSelector(stepsSelectors.buttonSelector);
-  const searchButton = await page.$(stepsSelectors.buttonSelector);
-  // @ts-ignore
-  await searchButton?.evaluate(searchButtonEl => searchButtonEl.click());
-
-  await page.waitForNavigation(defaultWaitUntilOptions);
+const aggregatePageContent = async (page: Page) => {
   await page.waitForSelector(stepsSelectors.stopSelector, defaultWaitUntilOptions);
   const allStops = await page.$$(stepsSelectors.stopSelector);
 
-  const flightsContainers = await page.$$('.delta.col-auto');
+  const flightsContainers = await page.$$(stepsSelectors.flightsContainerSelector);
 
-  const dom = cheerio.load('<div class="root"></div>');
-  const root = dom('.root');
+  const { dom, root } = prepareCheerioRoot();
 
   for (let i = 0; i < allStops.length; i++) {
     await flightsContainers[i].click();
-    await page.waitForSelector('.fares');
-    const prices = await page.$('.fares');
+    await page.waitForSelector(stepsSelectors.faresSelector);
+    const prices = await page.$(stepsSelectors.faresSelector);
     const pricesContent = await prices?.evaluate((pricesEl) => pricesEl.outerHTML);
 
     await allStops[i].hover();
@@ -101,4 +84,16 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   return result;
 };
 
-export const uralAirlineSteps: StepFn[] = [fillFlightForm];
+export const uralAirlineSteps: StepObject[] = [
+  { stepFn: closeModal, needArg: false },
+
+  { stepFn: fillInputFrom, needArg: true, argKey: 'from' },
+  { stepFn: fillInputTo, needArg: true, argKey: 'to' },
+  { stepFn: fillInputDatepicker, needArg: true, argKey: 'date' },
+  { stepFn: clickReverseDatepick, needArg: false },
+
+  { stepFn: clickAndWaitWithBindSelector, needArg: false },
+
+  { stepFn: aggregatePageContent, needArg: false },
+];
+

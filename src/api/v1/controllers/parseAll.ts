@@ -6,7 +6,7 @@ const parseAllAsIs: ControllerAsIs = (req, res) => {
   res?.contentType('application/json');
   const { from, to, date } = req.body;
 
-  parseAllPipeline([[from, to, date]])
+  parseAllPipeline({ from, to, date })
     .then((parsersData) => res?.send(parsersData));
 };
 

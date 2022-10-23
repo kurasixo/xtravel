@@ -4,7 +4,7 @@ import { goBySteps } from './goBySteps';
 import { memoNetworkWithCache } from '../../cache/redisCache';
 import { networkLog } from '../../log';
 import type { FnPromiseType } from '../../../types';
-import type { SingleStep } from '../../../parsers/parsers.types';
+import type { StepFnPageOnly } from '../../../parsers/parsers.types';
 
 
 const getRecordingName = (site: string): string => {
@@ -19,7 +19,7 @@ const getRecordingName = (site: string): string => {
 
 export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   site: string,
-  steps: SingleStep[],
+  steps: StepFnPageOnly[],
 ): Promise<string> => {
   networkLog('getting site content', site);
   const recordingName = getRecordingName(site);
@@ -30,7 +30,7 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
   networkLog('end navigation');
 
   networkLog('start steps');
-  const stepsResult = await goBySteps(steps, page);
+  const stepsResult = await goBySteps(page, steps);
   networkLog('end steps');
 
   const pageContent = page.content();

@@ -1,42 +1,44 @@
 import cheerio from 'cheerio';
 
 import type {
-  AdditionalArgsType,
+  FnPromiseType,
+} from '../../types';
+import type {
   Normalizer,
   ParserConfig,
   Processors,
   Selectors,
+  StepFnPageOnly,
 } from '../parsers.types';
-import type {
-  FnPromiseType,
-} from '../../types';
 
 
-export type ParseOperationConfig<E, O> = [
+export type ParseOperationConfig<R, O> = [
   ParserConfig,
   Selectors,
-  Processors<E>,
-  Normalizer<E[], O[]>,
+  Processors<R>,
+  Normalizer<R[], O[]>,
 
   FnPromiseType<string>,
-  AdditionalArgsType,
+  StepFnPageOnly[],
 ];
 
-export const parser = <E, O>(
-  parserConfig: ParserConfig,
-  selectors: Selectors,
-  processors: Processors<E>,
-  normalizer: Normalizer<E[], O[]>,
+export const parser = <R, O>(
+  ...[
+    parserConfig,
+    selectors,
+    processors,
+    normalizer,
 
-  getSiteFn: FnPromiseType<string>,
-  additionalArgs: AdditionalArgsType,
+    getSiteFn,
+    parserSteps,
+  ]: ParseOperationConfig<R, O>
 ): Promise<O[]> => {
-  return getSiteFn(parserConfig.url, additionalArgs)
+  return getSiteFn(parserConfig.url, parserSteps)
     .then((siteContent: string) => {
       const $ = cheerio.load(siteContent);
       const dataBySelectors = $(selectors.content);
 
-      const res: E[] = [];
+      const res: R[] = [];
 
       if (processors.each) {
         dataBySelectors.each((index, element) => {
@@ -47,17 +49,20 @@ export const parser = <E, O>(
 
       return res;
     })
-    .then((rawData) => normalizer(rawData, additionalArgs));
+    .then((rawData) => normalizer(rawData));
 };
 
+// rewrite to a simple decorator that takes fn and name and applies it
 export const parserWrapper = <E, O>(
-  parserConfig: ParserConfig,
-  selectors: Selectors,
-  processors: Processors<E>,
-  normalizer: Normalizer<E[], O[]>,
+  ...[
+    parserConfig,
+    selectors,
+    processors,
+    normalizer,
 
-  getSiteFn: FnPromiseType<string>,
-  additionalArgs: AdditionalArgsType,
+    getSiteFn,
+    parserSteps,
+  ]: ParseOperationConfig<E, O>
 ) => {
   const parserWrapped = () => parser(
     parserConfig,
@@ -66,12 +71,11 @@ export const parserWrapper = <E, O>(
     normalizer,
 
     getSiteFn,
-    additionalArgs,
+    parserSteps,
   );
 
   if (parserConfig.parserName) {
     Object.defineProperty(parserWrapped, 'name', { value: `parserFor${parserConfig.parserName}` });
-
     return parserWrapped;
   }
 

@@ -1,5 +1,5 @@
 import type {
-  AdditionalArgsType,
+  ParserStepsArguments,
   Price,
   RawPrice,
   RawRoute,
@@ -45,10 +45,9 @@ const normalizeTransfer = (transfer: RawTransfer): Transfer => {
   };
 };
 
-export const s7Normalizer = (
-  rawRoutes: RawRoute[],
-  additionalArgs: AdditionalArgsType,
-): RouteByName[] => {
+export const getS7Normalizer = (
+  parserStepsArguments: ParserStepsArguments
+) => (rawRoutes: RawRoute[]): RouteByName[] => {
   const routes: Route[] = rawRoutes.map((rawRoute) => {
     const normalizedPrice = normalizePrice(rawRoute.price);
     const normalizedTransfers = rawRoute.transfers.map(normalizeTransfer);
@@ -60,7 +59,7 @@ export const s7Normalizer = (
     };
   });
 
-  const [from, to] = additionalArgs[0].dataForStep;
+  const { from, to } = parserStepsArguments;
   const routeName = `${from}_${to}`;
 
   return [{

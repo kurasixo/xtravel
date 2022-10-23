@@ -1,35 +1,31 @@
 import { utairConfig as config } from './config';
+import { getUtairNormalizer as getNormalizer } from './normalizer';
 import { getSiteHeadlessly } from '../../utils/network/headless';
-import { utairNormalizer as normalizer } from './normalizer';
+import { getStepsToUse } from '../parser/utils';
 import { utairProcessors as processors } from './processors';
 import { utairSelectors as selectors } from './selectors';
 import { utairSteps as steps } from './steps';
+import type { ParseOperationConfig } from '../parser';
 import type {
-  AdditionalArgsType,
+  ParserStepsArguments,
   RawRoute,
   RouteByName,
 } from '../parsers.types';
-import type { ParseOperationConfig } from '../parser';
 
 
 export type UtairParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
-export const getUtairParserConfig = (dataForSteps: AdditionalArgsType) => {
-  const getStepsToUse = steps.map((stepFn, index) => {
-    return {
-      stepFn,
-      dataForStep: dataForSteps[index],
-    };
-  });
+export const getUtairParserConfig = (dataForSteps: ParserStepsArguments) => {
+  const stepsToUse = getStepsToUse(steps, dataForSteps);
 
   const UtairParserConfig: UtairParserConfig = [
     config,
     selectors,
     processors,
-    normalizer,
+    getNormalizer(dataForSteps),
 
     getSiteHeadlessly,
-    getStepsToUse,
+    stepsToUse,
   ];
 
   return UtairParserConfig;

@@ -1,31 +1,27 @@
 import { uralAirlineConfig as config } from './config';
+import { getUralAirlineNormalizer as getNormalizer } from './normalizer';
 import { getSiteHeadlessly } from '../../utils/network/headless';
-import { uralAirlineNormalizer as normalizer } from './normalizer';
+import { getStepsToUse } from '../parser/utils';
 import { uralAirlineProcessors as processors } from './processors';
 import { uralAirlineSelectors as selectors } from './selectors';
 import { uralAirlineSteps as steps } from './steps';
-import type { AdditionalArgsType, RawRoute, RouteByName } from '../parsers.types';
 import type { ParseOperationConfig } from '../parser';
+import type { ParserStepsArguments, RawRoute, RouteByName } from '../parsers.types';
 
 
 export type UralAirlineParserConfig = ParseOperationConfig<RawRoute, RouteByName>;
 
-export const getUralAirlineParserConfig = (dataForSteps: AdditionalArgsType) => {
-  const getStepsToUse = steps.map((stepFn, index) => {
-    return {
-      stepFn,
-      dataForStep: dataForSteps[index],
-    };
-  });
+export const getUralAirlineParserConfig = (dataForSteps: ParserStepsArguments) => {
+  const stepsToUse = getStepsToUse(steps, dataForSteps);
 
   const uralAirlineParserConfig: UralAirlineParserConfig = [
     config,
     selectors,
     processors,
-    normalizer,
+    getNormalizer(dataForSteps),
 
     getSiteHeadlessly,
-    getStepsToUse,
+    stepsToUse,
   ];
 
   return uralAirlineParserConfig;

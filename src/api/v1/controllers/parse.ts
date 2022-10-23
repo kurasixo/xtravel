@@ -1,4 +1,3 @@
-import { AdditionalArgsType } from '../../../parsers/parsers.types';
 import {
   parseAeroflotOp,
   parseS7Op,
@@ -7,12 +6,13 @@ import {
 } from '../../../pipeline/pipelines';
 import { validateBody } from '../../validation';
 import type { Controller, ControllerAsIs } from '../../apiTypes';
+import type { ParserStepsArguments } from '../../../parsers/parsers.types';
 import type { TypeStructureItem } from '../../validation';
 
 
 type ParserKey = 'aeroflot' | 'utair' | 'uralAirlines' | 's7';
 type ParsersObj = {
-  [k in ParserKey]: (dataForSteps: AdditionalArgsType) => Promise<unknown>
+  [k in ParserKey]: (dataForSteps: ParserStepsArguments) => Promise<unknown>
 };
 
 const parsers: ParsersObj = {

@@ -1,6 +1,3 @@
 {
-  "jest.jestCommandLine": "node_modules/.bin/jest",
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "file:///Users/vadimkurnakov/projects/xtravel/.github/workflows/main.yml"
-  }
+  "jest.jestCommandLine": "node_modules/.bin/jest"
 }

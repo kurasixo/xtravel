@@ -1,6 +1,6 @@
 import type {
-  AdditionalArgsType,
   Flight,
+  ParserStepsArguments,
   Price,
   RawPrice,
   RawRoute,
@@ -93,12 +93,11 @@ const normalizeRoute = (rawRoute: RawRoute): Route => {
   };
 };
 
-export const uralAirlineNormalizer = (
-  rawRoutes: RawRoute[],
-  additionalArgs: AdditionalArgsType,
-): RouteByName[] => {
+export const getUralAirlineNormalizer = (
+  parserStepsArguments: ParserStepsArguments,
+) => (rawRoutes: RawRoute[]): RouteByName[] => {
   const routes = rawRoutes.map(normalizeRoute);
-  const [from, to] = additionalArgs[0].dataForStep;
+  const { from, to } = parserStepsArguments;
   const routeName = `${from}_${to}`;
 
   return [{

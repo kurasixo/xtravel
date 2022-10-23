@@ -1,79 +1,60 @@
-import cheerio from 'cheerio';
-
-import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
+import { changeFocusToNextElement, clickAndWait, fillDatepickerUtair, fillInputUtair } from '../parser/utilsSteps';
+import { Page } from 'puppeteer';
+import { prepareCheerioRoot } from '../parser/utils';
 import { stepsSelectors } from './selectors';
-import type { StepFn } from '../parsers.types';
-
-// move to seperate steps
-const fillFlightForm: StepFn = async (page, data: string[]) => {
-  const [from, to, date] = data;
-
-  const suggestionsFields = await page.$$(stepsSelectors.suggestionsFields);
-
-  await page.waitForSelector(stepsSelectors.fromInputSelector);
-  const inputValue = await page.$eval(stepsSelectors.fromInputSelector, el => el.getAttribute('value')) || '';
-  for (let i = 0; i < inputValue.length; i++) {
-    await page.keyboard.press('Backspace');
-  }
-
-  const fromInputElement = await page.$(stepsSelectors.fromInputSelector);
-  await fromInputElement?.click();
-  await page.keyboard.type(from, { delay: 400 });
-
-  const fromInputFirstSuggestionElement =
-    await suggestionsFields[0].$(stepsSelectors.firstSuggestion);
-  await fromInputFirstSuggestionElement?.click();
+import type { StepObject, } from '../parsers.types';
 
 
-  const toInputElement = await page.$(stepsSelectors.toInputSelector);
-  await toInputElement?.click();
-  await page.keyboard.type(to, { delay: 400 });
+const fillInputFrom = async (
+  page: Page,
+  from: string,
+) => {
+  return await fillInputUtair(
+    page,
+    'from',
+    from,
+    stepsSelectors.fromInputSelector,
+    stepsSelectors.suggestionsFields,
+    stepsSelectors.firstSuggestion,
+  );
+};
 
-  const toInputFirstSuggestionElement =
-    await suggestionsFields[1].$(stepsSelectors.firstSuggestion);
-  await toInputFirstSuggestionElement?.click();
+const fillInputTo = async (
+  page: Page,
+  to: string,
+) => {
+  return await fillInputUtair(
+    page,
+    'to',
+    to,
+    stepsSelectors.toInputSelector,
+    stepsSelectors.suggestionsFields,
+    stepsSelectors.firstSuggestion,
+  );
+};
 
-  await page.keyboard.press('Tab');
+const fillInputDatepicker = async (
+  page: Page,
+  date: string,
+) => {
+  return await fillDatepickerUtair(
+    page,
+    date,
+    stepsSelectors.datePickers,
+    stepsSelectors.calendars,
+    stepsSelectors.calendarsMonths,
+    stepsSelectors.calendarsDay,
+  );
+};
 
-  const [datePicker] = await page.$$(stepsSelectors.datePickers);
-  await datePicker?.click();
-  await datePicker?.focus();
+const clickAndWaitWithBindSelector = (page: Page) =>
+  clickAndWait(page, stepsSelectors.searchButton);
 
-  const [day, month, year] = date.split('.');
-  const dateSelectorString = new Date(+year, +month - 1, +day);
-  const monthInLocale = dateSelectorString.toLocaleString('ru', { month: 'long' });
-
-  const searchDateString = monthInLocale + ' ' + year;
-
-  const magicDateTimeElements = await page.$$(stepsSelectors.calendars);
-  const magicDateTimeElementsHeader = await page.$$(stepsSelectors.calendarsMonths);
-  const months = await Promise.all(magicDateTimeElementsHeader.map((tableHead) => {
-    return tableHead?.evaluate(th => th.textContent);
-  }));
-
-  const foundMonth = months.find((month) => month?.toLocaleLowerCase() === searchDateString);
-  const indexOfFoundMonth = months.indexOf(foundMonth as string);
-  const allDateElements =
-    await magicDateTimeElements[indexOfFoundMonth].$$(stepsSelectors.calendarsDay);
-  const dates = await Promise.all(allDateElements.map((dateElement) => {
-    return dateElement.evaluate(td => td.textContent);
-  }));
-  const foundDate = dates.find((date) => date?.trim() === day);
-  const indexOfFoundDate = dates.indexOf(foundDate as string);
-
-  const dateElementToClick = allDateElements[indexOfFoundDate];
-  await dateElementToClick?.click();
-
-  const searchButton = await page.$(stepsSelectors.searchButton);
-  await searchButton?.click();
-
-  await page.waitForNavigation(defaultWaitUntilOptions);
-
+const aggregatePageContent = async (page: Page) => {
   const flights = await page.$$(stepsSelectors.flights);
   const flightsRow = await page.$$(stepsSelectors.flightRowSelector);
 
-  const dom = cheerio.load('<div class="root"></div>');
-  const root = dom('.root');
+  const { dom, root } = prepareCheerioRoot();
 
   for (let i = 0; i < flights.length; i++) {
     const prices = await flightsRow[i].$$(stepsSelectors.prices);
@@ -92,4 +73,13 @@ const fillFlightForm: StepFn = async (page, data: string[]) => {
   return result;
 };
 
-export const utairSteps: StepFn[] = [fillFlightForm];
+export const utairSteps: StepObject[] = [
+  { stepFn: fillInputFrom, needArg: true, argKey: 'from' },
+  { stepFn: fillInputTo, needArg: true, argKey: 'to' },
+  { stepFn: changeFocusToNextElement, needArg: false },
+  { stepFn: fillInputDatepicker, needArg: true, argKey: 'date' },
+  { stepFn: clickAndWaitWithBindSelector, needArg: false },
+
+  { stepFn: aggregatePageContent, needArg: false },
+];
+

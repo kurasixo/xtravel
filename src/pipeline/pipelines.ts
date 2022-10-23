@@ -6,8 +6,8 @@ import { gets7ParserConfig, S7ParserConfig } from '../parsers/s7';
 import { getUralAirlineParserConfig, UralAirlineParserConfig } from '../parsers/uralAirlines';
 import { getUtairParserConfig, UtairParserConfig } from '../parsers/utair';
 import { RusNoVisaParserConfig, rusNoVisaParserConfig } from '../parsers/rusNoVisa';
-import type { AdditionalArgsType, RouteByName } from '../parsers/parsers.types';
 import type { BaseMongoOperationConfig  } from '../db/mongoService';
+import type { ParserStepsArguments, RouteByName } from '../parsers/parsers.types';
 import type { PipelineConfigItem } from './createPipeline';
 import type { VisaInfo, VisaInfoRaw } from '../parsers/rusNoVisa/types';
 
@@ -46,7 +46,7 @@ export const parseRusNoVisaAndPutMongo = () => {
   return createSyncPipeline(pipelineOperations);
 };
 
-export const parseAeroflotOp = (dataForSteps: AdditionalArgsType) => {
+export const parseAeroflotOp = (dataForSteps: ParserStepsArguments) => {
   const parseAeroflot: T<AeroflotParserConfig, RouteByName[],  never> = {
     config: getAeroflotParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -55,7 +55,7 @@ export const parseAeroflotOp = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline([parseAeroflot]);
 };
 
-export const parseS7Op = (dataForSteps: AdditionalArgsType) => {
+export const parseS7Op = (dataForSteps: ParserStepsArguments) => {
   const parseS7: T<S7ParserConfig, RouteByName[],  never> = {
     config: gets7ParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -64,7 +64,7 @@ export const parseS7Op = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline([parseS7]);
 };
 
-export const parseUralAirlinesOp = (dataForSteps: AdditionalArgsType) => {
+export const parseUralAirlinesOp = (dataForSteps: ParserStepsArguments) => {
   const parseUralAirlines: T<UralAirlineParserConfig, RouteByName[],  never> = {
     config: getUralAirlineParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -73,7 +73,7 @@ export const parseUralAirlinesOp = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline([parseUralAirlines]);
 };
 
-export const parseUtairOp = (dataForSteps: AdditionalArgsType) => {
+export const parseUtairOp = (dataForSteps: ParserStepsArguments) => {
   const parseUtair: T<UtairParserConfig, RouteByName[],  never> = {
     config: getUtairParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -82,7 +82,7 @@ export const parseUtairOp = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline([parseUtair]);
 };
 
-export const parseAeroflotAndPutMongo = (dataForSteps: AdditionalArgsType) => {
+export const parseAeroflotAndPutMongo = (dataForSteps: ParserStepsArguments) => {
   const parseAeroflot: T<AeroflotParserConfig, RouteByName[],  never> = {
     config: getAeroflotParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -96,7 +96,7 @@ export const parseAeroflotAndPutMongo = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline(pipelineOperations);
 };
 
-export const parseS7AndPutMongo = (dataForSteps: AdditionalArgsType) => {
+export const parseS7AndPutMongo = (dataForSteps: ParserStepsArguments) => {
   const parseS7: T<S7ParserConfig, RouteByName[],  never> = {
     config: gets7ParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -110,7 +110,7 @@ export const parseS7AndPutMongo = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline(pipelineOperations);
 };
 
-export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) => {
+export const parseUralAirlinesAndPutMongo = (dataForSteps: ParserStepsArguments) => {
   const parseUralAirlines: T<UralAirlineParserConfig, RouteByName[],  never> = {
     config: getUralAirlineParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -124,7 +124,7 @@ export const parseUralAirlinesAndPutMongo = (dataForSteps: AdditionalArgsType) =
   return createSyncPipeline(pipelineOperations);
 };
 
-export const parseUtairAndPutMongo = (dataForSteps: AdditionalArgsType) => {
+export const parseUtairAndPutMongo = (dataForSteps: ParserStepsArguments) => {
   const parseUtair: T<UtairParserConfig, RouteByName[],  never> = {
     config: getUtairParserConfig(dataForSteps),
     operation: getParseOperation(),
@@ -138,7 +138,7 @@ export const parseUtairAndPutMongo = (dataForSteps: AdditionalArgsType) => {
   return createSyncPipeline(pipelineOperations);
 };
 
-export const parseAllPipeline = (dataForSteps: AdditionalArgsType) => {
+export const parseAllPipeline = (dataForSteps: ParserStepsArguments) => {
   const parseUtair: T<UtairParserConfig, RouteByName[],  never> = {
     config: getUtairParserConfig(dataForSteps),
     operation: getParseOperation(),

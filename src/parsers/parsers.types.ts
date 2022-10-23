@@ -14,18 +14,21 @@ export type Processors<E> = {
   ) => E;
 };
 
+export type Normalizer<R, O> = (data: R) => O;
+
 export type Selector = string;
 export type Selectors = {
   content: Selector;
 };
 
-// eslint-disable-next-line
-export type AdditionalArgsType = any[];
-export type Normalizer<E, O> = (data: E, additionalArgs: AdditionalArgsType) => O;
-
+export type ParserStepsArguments = { from: string, to: string, date: string };
 export type StepFn = (page: Page, ...args: unknown[]) => Promise<string | void>;
-export type SingleStep = { stepFn: StepFn, dataForStep: AdditionalArgsType };
-
+export type StepFnPageOnly = (page: Page) => Promise<string | void>;
+export type StepObject = {
+  needArg: boolean;
+  argKey?: keyof ParserStepsArguments | (keyof ParserStepsArguments)[];
+  stepFn: StepFn,
+}
 
 export type Price = {
   value: number;
