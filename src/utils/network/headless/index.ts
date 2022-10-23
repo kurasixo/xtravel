@@ -1,4 +1,5 @@
 import { networkLog } from '../../log';
+import { asyncWithRetryOnError } from '../../retry';
 import { memoNetworkWithCache } from '../../cache/redisCache';
 
 import type { FnPromiseType, SingleStep, Site } from '../../../types';
@@ -44,4 +45,4 @@ export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
 };
 
 export const getSiteHeadlessly: FnPromiseType<string> =
-  memoNetworkWithCache(getSiteHeadlesslyWihoutMemo);
+  memoNetworkWithCache(asyncWithRetryOnError(getSiteHeadlesslyWihoutMemo));

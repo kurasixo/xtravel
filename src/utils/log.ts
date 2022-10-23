@@ -1,5 +1,6 @@
+let isLogEnabled = process.env.NODE_ENV !== 'test';
 const createEnableLogger = () => {
-  let isLogEnabled = true;
+
   const disableLog = () => {
     isLogEnabled = false;
   };
@@ -11,7 +12,7 @@ const createEnableLogger = () => {
   return { isLogEnabled, disableLog, enableLog };
 };
 
-export const { isLogEnabled, disableLog, enableLog } = createEnableLogger();
+export const { disableLog, enableLog } = createEnableLogger();
 
 const specialChar = '\x1b[36m';
 const colors = {

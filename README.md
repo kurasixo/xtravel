@@ -1,6 +1,7 @@
 # TODO:
  - add error handling
  - add tests
+ - move types to seperate modules
  - add core functional with current data
  - move data to pgql
  - refactor all selector

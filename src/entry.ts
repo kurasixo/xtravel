@@ -38,5 +38,5 @@ const parseEverything = () => {
     );
 };
 
-// parseEverything();
-startApiApp();
+parseEverything();
+// startApiApp();
