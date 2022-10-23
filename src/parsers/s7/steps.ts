@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import type { StepFn } from '../../types';
+import type { StepFn } from '../parsers.types';
 import { defaultWaitUntilOptions } from '../../utils/network/headless/launchBrowser';
 import { innerSelectors, s7Selectors } from '../s7/selectors';
 

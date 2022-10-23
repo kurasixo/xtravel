@@ -1,4 +1,4 @@
-import { ParserConfig } from '../../types';
+import type { ParserConfig } from '../parsers.types';
 
 
 const url = 'https://www.uralairlines.ru';

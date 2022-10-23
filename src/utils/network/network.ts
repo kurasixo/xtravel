@@ -4,11 +4,11 @@ import { networkLog } from '../log';
 import { asyncWithRetryOnError } from '../retry';
 import { memoNetworkWithCache } from '../cache/redisCache';
 
-import type { FnPromiseType, Site } from '../../types';
+import type { FnPromiseType } from '../../types';
 
 
 export const getSiteWithoutMemo: FnPromiseType<string> = (
-  site: Site,
+  site: string,
 ) => {
   networkLog('getting site content', site);
   return axios.get<string>(site).then((response) => response.data);

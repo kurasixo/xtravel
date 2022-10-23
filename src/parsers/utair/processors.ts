@@ -1,5 +1,11 @@
-import type { Flight, Processors, RawPrice, RawRoute, RawTransfer } from '../../types';
+import type {
+  Flight,
+  RawRoute,
+  Processors,
+  RawTransfer,
+} from '../parsers.types';
 import { innerSelectors } from './selectors';
+
 
 
 const getFlightAsObject = ($: cheerio.Root, flightElement: cheerio.Element): Flight => {
@@ -46,7 +52,7 @@ const getTransferAsObject = ($: cheerio.Root, transferElement: cheerio.Element):
 export const utairProcessors: Processors<RawRoute> = {
   each: (_, flight, $) => {
     const rootFlight = $(flight);
-    const prices: RawPrice[] = Array.from(rootFlight.find(innerSelectors.innerPrices))
+    const prices = Array.from(rootFlight.find(innerSelectors.innerPrices))
       .map(el => ({ value: $(el).text(), currency: '' }));
 
     const flights = Array.from(rootFlight.find('.FlightInfo-table .FlightInfo-row'))

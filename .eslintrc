@@ -10,18 +10,20 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": ["./tsconfig.json"] },
   "plugins": [
-    "@typescript-eslint",
-    "import"
+    "import",
+    "simple-import-sort",
+    "@typescript-eslint"
   ],
   "rules": {
-    "max-len": ["error", { "code": 98, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
-    "indent": ["error", 2],
     "semi": "error",
-    "quotes": [2, "single"],
     "eol-last": "error",
     "no-trailing-spaces": "error",
+    // "simple-import-sort/imports": "error",
 
+    "indent": ["error", 2],
+    "quotes": [2, "single"],
     "import/newline-after-import": ["error", { "count": 2 }],
+    "max-len": ["error", { "code": 98, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
 
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off"

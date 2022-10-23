@@ -1,5 +1,9 @@
-import type { Flight, Processors, RawRoute } from '../../types';
 import { innerSelectors } from './selectors';
+import type {
+  Flight,
+  RawRoute,
+  Processors,
+} from '../parsers.types';
 
 
 const getFlightAsObject = ($: cheerio.Root, flightEl: cheerio.Cheerio): Flight => {

@@ -2,12 +2,13 @@ import { networkLog } from '../../log';
 import { asyncWithRetryOnError } from '../../retry';
 import { memoNetworkWithCache } from '../../cache/redisCache';
 
-import type { FnPromiseType, SingleStep, Site } from '../../../types';
+import type { FnPromiseType } from '../../../types';
+import type { SingleStep } from '../../../parsers/parsers.types';
 import { defaultWaitUntilOptions, launchHeadlessBrowser, stopHeadlessBrowser } from './launchBrowser';
 import { goBySteps } from './goBySteps';
 
 
-const getRecordingName = (site: Site): string => {
+const getRecordingName = (site: string): string => {
   const recordingName = site.split('/')[2] + '.mp4';
 
   if (recordingName.includes('www')) {
@@ -18,7 +19,7 @@ const getRecordingName = (site: Site): string => {
 };
 
 export const getSiteHeadlesslyWihoutMemo: FnPromiseType<string> = async (
-  site: Site,
+  site: string,
   steps: SingleStep[],
 ): Promise<string> => {
   networkLog('getting site content', site);

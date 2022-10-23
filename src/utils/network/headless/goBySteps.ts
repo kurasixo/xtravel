@@ -1,5 +1,5 @@
 import type { Page } from 'puppeteer';
-import type { SingleStep } from '../../../types';
+import type { SingleStep } from '../../../parsers/parsers.types';
 
 
 type StepResult = Promise<void | string>;

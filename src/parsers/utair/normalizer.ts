@@ -1,5 +1,18 @@
-import type { Flight, Price, RawPrice, RawRoute, RawTransfer, Route, RouteByName, Transfer } from '../../types';
-import type { AdditionalArgsType } from '../parser';
+import type {
+  Flight,
+
+  Route,
+  RawRoute,
+  RouteByName,
+
+  Transfer,
+  RawTransfer,
+
+  Price,
+  RawPrice,
+
+  AdditionalArgsType,
+} from '../parsers.types';
 
 
 const normalizeFlightCompany = (flight: Flight): Flight => {

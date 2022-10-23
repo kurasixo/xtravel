@@ -4,7 +4,7 @@ import { rusNoVisaProcessors as processors } from './processors';
 import { rusNoVisaSelectors as selectors } from './selectors';
 import { getSite } from '../../utils/network/network';
 
-import type { VisaInfo, VisaInfoRaw } from '../../types';
+import type { VisaInfo, VisaInfoRaw } from './types';
 import type { ParseOperationConfig } from '../parser';
 
 

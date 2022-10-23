@@ -5,8 +5,8 @@ import { aeroflotSelectors as selectors } from './selectors';
 import { aeroflotSteps as steps } from './steps';
 
 import { getSiteHeadlessly } from '../../utils/network/headless';
-import type { AdditionalArgsType, ParseOperationConfig } from '../parser';
-import type { RawRoute, RouteByName } from '../../types';
+import type { ParseOperationConfig } from '../parser';
+import type { AdditionalArgsType, RawRoute, RouteByName } from '../parsers.types';
 
 
 export type AeroflotParserConfig = ParseOperationConfig<RawRoute, RouteByName>;

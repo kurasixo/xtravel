@@ -1,5 +1,16 @@
-import type { Price, RawPrice, RawRoute, RawTransfer, Route, RouteByName, Transfer } from '../../types';
-import type { AdditionalArgsType } from '../parser';
+import type {
+  Route,
+  RawRoute,
+  RouteByName,
+
+  Transfer,
+  RawTransfer,
+
+  Price,
+  RawPrice,
+
+  AdditionalArgsType,
+} from '../parsers.types';
 
 
 const normalizePrice = (price: RawPrice | RawPrice[]): Price | Price[] => {

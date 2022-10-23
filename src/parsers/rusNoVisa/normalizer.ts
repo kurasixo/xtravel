@@ -1,5 +1,5 @@
 import compose from 'lodash/fp/compose';
-import type { VisaInfo, VisaInfoRaw } from '../../types';
+import type { VisaInfo, VisaInfoRaw } from './types';
 
 
 type WId<O> = Omit<O, 'id'> & { id: VisaInfo['id'] };

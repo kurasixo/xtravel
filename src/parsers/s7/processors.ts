@@ -1,5 +1,10 @@
-import type { Flight, Processors, RawPrice, RawRoute, RawTransfer } from '../../types';
 import { innerSelectors } from './selectors';
+import type {
+  Flight,
+  RawRoute,
+  Processors,
+  RawTransfer,
+} from '../parsers.types';
 
 
 const getAirport = (airport: string) => {
@@ -68,7 +73,7 @@ export const s7Processors: Processors<RawRoute> = {
   each: (_, flight, $) => {
     const rootFlight = $(flight);
     const priceElements = rootFlight.find(innerSelectors.priceSelector);
-    const prices: RawPrice[] = Array
+    const prices = Array
       .from(priceElements)
       .map(el => ({ value: $(el).text(), currency: 'rub' }));
 

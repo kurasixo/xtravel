@@ -5,8 +5,12 @@ import { utairSelectors as selectors } from './selectors';
 import { utairSteps as steps } from './steps';
 
 import { getSiteHeadlessly } from '../../utils/network/headless';
-import type { AdditionalArgsType, ParseOperationConfig } from '../parser';
-import type { RawRoute, RouteByName } from '../../types';
+import type { ParseOperationConfig } from '../parser';
+import type {
+  RawRoute,
+  RouteByName,
+  AdditionalArgsType,
+} from '../parsers.types';
 
 
 export type UtairParserConfig = ParseOperationConfig<RawRoute, RouteByName>;

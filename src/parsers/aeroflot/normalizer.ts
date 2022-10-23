@@ -1,5 +1,13 @@
-import type { AdditionalArgsType } from '../parser';
-import type { Price, RawPrice, RawRoute, Route, RouteByName } from '../../types';
+import type {
+  Route,
+  RawRoute,
+  RouteByName,
+
+  Price,
+  RawPrice,
+
+  AdditionalArgsType,
+} from '../parsers.types';
 
 
 const normalizeTime = (time: string, separator = ':') => {

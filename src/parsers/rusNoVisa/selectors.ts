@@ -1,4 +1,4 @@
-import { Selectors } from '../../types';
+import type { Selectors } from '../parsers.types';
 
 
 export const rusNoVisaSelectors: Selectors = {

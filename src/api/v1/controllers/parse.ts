@@ -1,4 +1,4 @@
-import { AdditionalArgsType } from '../../../parsers/parser';
+import { AdditionalArgsType } from '../../../parsers/parsers.types';
 import {
   parseS7Op,
   parseUtairOp,

@@ -1,15 +1,16 @@
 import cheerio from 'cheerio';
 import type {
-  Selectors,
-  Normalizer,
-  Processors,
-  ParserConfig,
   FnPromiseType,
 } from '../../types';
 
+import type {
+  Normalizer,
+  ParserConfig,
+  Processors,
+  Selectors,
+  AdditionalArgsType,
+} from '../parsers.types';
 
-// eslint-disable-next-line
-export type AdditionalArgsType = any[];
 
 export type ParseOperationConfig<E, O> = [
   ParserConfig,
