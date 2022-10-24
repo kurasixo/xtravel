@@ -5,6 +5,18 @@ export const uralAirlineSelectors: Selectors = {
   content: 'div[data-cy="flight-stop-tooltip"]',
 };
 
+export const processorSelectors = {
+  priceSelector: 'span[data-cy="u6-price"]',
+  flightsSelector: '.d-flex.mb-14',
+  planeModelSelector: '.text-normal.mb-4.text-left .text-light.text-s.ml-10',
+  flightNumberSelector: '.text-normal.mb-4.text-left > span:first-child',
+  flightTimeSelector: '.airport-wrapper > span:first-child',
+  flightAirportSelector: '.airport-wrapper .text-light',
+
+  transfersSelector: '.d-flex.align-items-center.mt-16',
+  transferTimeSelector: '.text-xs.text-light',
+};
+
 export const stepsSelectors = {
   clickableInputElementSelector: '.city-select',
   closeModalButtonSelector: 'button.uk-modal-close-outside',
@@ -25,16 +37,4 @@ export const stepsSelectors = {
   flightsContainerSelector: '.delta.col-auto',
   stopSelector: '.stops',
   fullRouteSelector: 'div[data-cy="flight-stop-tooltip"]',
-};
-
-export const processorSelectors = {
-  priceSelector: 'span[data-cy="u6-price"]',
-  flightsSelector: '.d-flex.mb-14',
-  planeModelSelector: '.text-normal.mb-4.text-left .text-light.text-s.ml-10',
-  flightNumberSelector: '.text-normal.mb-4.text-left > span:first-child',
-  flightTimeSelector: '.airport-wrapper > span:first-child',
-  flightAirportSelector: '.airport-wrapper .text-light',
-
-  transfersSelector: '.d-flex.align-items-center.mt-16',
-  transferTimeSelector: '.text-xs.text-light',
 };
