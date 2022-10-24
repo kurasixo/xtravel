@@ -43,6 +43,7 @@ export const parseRusNoVisaAndPutMongo = () => {
     putVisasToMongo,
     // dropConnectionsOp,
   ];
+
   return createSyncPipeline(pipelineOperations);
 };
 
@@ -93,6 +94,7 @@ export const parseAeroflotAndPutMongo = (dataForSteps: ParserStepsArguments) => 
     putFlightsToMongo,
     // dropConnectionsOp,
   ];
+
   return createSyncPipeline(pipelineOperations);
 };
 
@@ -107,6 +109,7 @@ export const parseS7AndPutMongo = (dataForSteps: ParserStepsArguments) => {
     putFlightsToMongo,
     // dropConnectionsOp,
   ];
+
   return createSyncPipeline(pipelineOperations);
 };
 
@@ -121,6 +124,7 @@ export const parseUralAirlinesAndPutMongo = (dataForSteps: ParserStepsArguments)
     putFlightsToMongo,
     // dropConnectionsOp,
   ];
+
   return createSyncPipeline(pipelineOperations);
 };
 
@@ -135,6 +139,7 @@ export const parseUtairAndPutMongo = (dataForSteps: ParserStepsArguments) => {
     // putFlightsToMongo,
     // dropConnectionsOp,
   ];
+
   return createSyncPipeline(pipelineOperations);
 };
 

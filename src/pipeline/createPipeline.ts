@@ -6,6 +6,11 @@ export interface PipelineConfigItem<C, R, P> {
   operation: OperationFn<C, R, P>,
 }
 
+type PipelineError = {
+  error: boolean;
+  errorMessage: string;
+}
+
 export const createSyncPipeline = <C, R, P>(
   pipelineOperations: PipelineConfigItem<C, R, P>[],
 ): Promise<unknown> => {
@@ -22,17 +27,26 @@ export const createSyncPipeline = <C, R, P>(
       return acc;
     }, initialPromise);
 
-  return aggregatedPromise;
+  return aggregatedPromise
+    .catch((e) => ({
+      error: true,
+      errorMessage: `Error in async pipeline aggregated promise: ${e}`,
+    }));
 };
 
 export const createPipeline = <C, R>(
   pipelineOperations: PipelineConfigItem<C, R, never>[],
-): Promise<unknown> => {
+): Promise<unknown | PipelineError> => {
   const resPromises = Promise.all(
     pipelineOperations.map(({ operation: operationFn, config }) => {
       return operationFn({ config });
     })
-  );
+  ).catch((e) => {
+    return {
+      error: true,
+      errorMessage: `Error in async pipeline aggregated promise: ${e}`,
+    };
+  });
 
   return resPromises;
 };

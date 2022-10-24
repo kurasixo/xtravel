@@ -20,6 +20,16 @@ const iPromise = jest.fn(() => {
   return resFn;
 });
 
+const iPromiseReject = jest.fn(() => {
+  // @ts-ignore
+  const resFn: IPromiseFnType = ({ config: i }: { config: number }) => new Promise((_, rej) => {
+    fnQueue.push(i);
+    return rej(i);
+  });
+
+  return resFn;
+});
+
 const firstOp = {
   operation: iPromise(),
   config: 1,
@@ -35,7 +45,14 @@ const thirdOp = {
   config: 3,
 };
 
+const rejectOp = {
+  operation: iPromiseReject(),
+  config: 3,
+};
+
 const operations = [secondOp, firstOp, thirdOp];
+const operationsWithReject = [secondOp, firstOp, rejectOp];
+const operationsWithRejectFirst = [rejectOp, firstOp, rejectOp];
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -65,6 +82,20 @@ describe('createPipeline module', () => {
 
       expect(fnQueue).toEqual([2, 1, 3]);
     });
+
+    it('should catch error in async pipeline and return', async () => {
+      const asyncPipeline = await createPipeline(operationsWithReject);
+
+      expect(fnQueue).toEqual([2, 1, 3]);
+      expect(asyncPipeline).toEqual({ error: true, errorMessage: 'Error in async pipeline aggregated promise: 3' });
+    });
+
+    it('should catch error in async pipeline and return and call other steps', async () => {
+      const asyncPipeline = await createPipeline(operationsWithRejectFirst);
+
+      expect(fnQueue).toEqual([3, 1, 3]);
+      expect(asyncPipeline).toEqual({ error: true, errorMessage: 'Error in async pipeline aggregated promise: 3' });
+    });
   });
 
   describe('createSyncPipeline', () => {
@@ -79,6 +110,20 @@ describe('createPipeline module', () => {
         .toEqual(secondOp.operation.callTime);
 
       expect(fnQueue).toEqual([2, 1, 3]);
+    });
+
+    it('should catch error in sync pipeline and return', async () => {
+      const asyncPipeline = await createSyncPipeline(operationsWithReject);
+
+      expect(fnQueue).toEqual([2, 1, 3]);
+      expect(asyncPipeline).toEqual({ error: true, errorMessage: 'Error in async pipeline aggregated promise: 3' });
+    });
+
+    it('should catch error in sync pipeline and return and not call other steps', async () => {
+      const asyncPipeline = await createSyncPipeline(operationsWithRejectFirst);
+
+      expect(fnQueue).toEqual([3]);
+      expect(asyncPipeline).toEqual({ error: true, errorMessage: 'Error in async pipeline aggregated promise: 3' });
     });
   });
 });
