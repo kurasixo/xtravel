@@ -2,6 +2,7 @@
 
 node_modules/
 demo/
+coverage/
 src/parsers/recordings/*.mp4
 build/
 build.webpack/
