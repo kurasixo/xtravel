@@ -45,14 +45,22 @@ export const changeFocusToNextElement = async (
   await page.keyboard.press('Tab');
 };
 
-export const fillInputAeroflot = async (page: Page, dataToEnter: string, selector: string) => {
+export const fillInputAeroflot = async (
+  page: Page,
+  dataToEnter: string,
+  selector: string,
+
+  shouldClearInput = true,
+) => {
   const fromInputElement = await page.$(selector);
   await fromInputElement?.click();
   await fromInputElement?.focus();
 
-  const inputValue = await page.$eval(selector, el => el.getAttribute('value')) || '';
-  for (let i = 0; i < inputValue.length; i++) {
-    await page.keyboard.press('Backspace');
+  if (shouldClearInput) {
+    const inputValue = await page.$eval(selector, el => el.getAttribute('value')) || '';
+    for (let i = 0; i < inputValue.length; i++) {
+      await page.keyboard.press('Backspace');
+    }
   }
 
   await page.keyboard.type(dataToEnter);

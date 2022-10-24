@@ -21,7 +21,7 @@ const fillInputTo = async (
   page: Page,
   to: string,
 ) => {
-  await fillInputAeroflot(page, to, stepsSelectors.toInputSelector);
+  await fillInputAeroflot(page, to, stepsSelectors.toInputSelector, false);
 };
 
 const fillInputDatepicker = async (

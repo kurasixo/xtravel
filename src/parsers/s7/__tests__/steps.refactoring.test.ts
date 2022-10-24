@@ -1,100 +1,21 @@
 import cheerio from 'cheerio';
 
+import {
+  AdditionalArgsType,
+  createPageForNew,
+  createPageForOld,
+  goByNewSteps,
+  goByOldSteps,
+} from '../../parser/parserTestUtil';
 import { defaultWaitUntilOptions } from '../../../utils/network/headless/launchBrowser';
-import { getStepsToUse } from '../../parser/utils';
-import { goBySteps } from '../../../utils/network/headless/goBySteps';
 import { s7Selectors, stepsSelectors } from '../selectors';
 import { s7Steps as s7StepsNew } from '../steps';
 import type { Page } from 'puppeteer';
 import type { StepFn } from '../../parsers.types';
 
 
-// eslint-disable-next-line
-const mockAsyncFn = (...args: any[]) =>
-  () => new Promise(res => res(args));
-
-const element = {
-  evaluate: jest.fn(() => () => ({
-    dateTime: 'dateTime',
-    outerHTML: 'outerHTML',
-  })),
-  click: jest.fn(mockAsyncFn('click')),
-  focus: jest.fn(mockAsyncFn('focus')),
-};
-
-const firstClickableElement = {
-  evaluate: jest.fn(() => () => ({
-    dateTime: 'dateTime',
-    outerHTML: 'outerHTML',
-  })),
-  $: jest.fn(() => element),
-  click: jest.fn(mockAsyncFn('click')),
-  focus: jest.fn(mockAsyncFn('focus')),
-};
-
-const pageForNew = {
-  $: jest.fn(() => firstClickableElement),
-  $$: jest.fn(() => [
-    firstClickableElement,
-    firstClickableElement,
-    firstClickableElement,
-    firstClickableElement,
-  ]),
-  waitForSelector: jest.fn(mockAsyncFn('waitForSelector')),
-  keyboard: {
-    type: jest.fn(mockAsyncFn('keyboard.type')),
-  },
-  waitForNavigation: jest.fn(mockAsyncFn('waitForNavigation')),
-};
-
-const secondClickableElement =  {
-  evaluate: jest.fn(() => () => ({
-    dateTime: 'dateTime',
-    outerHTML: 'outerHTML',
-  })),
-  $: jest.fn(() => element),
-  click: jest.fn(mockAsyncFn('click')),
-  focus: jest.fn(mockAsyncFn('focus')),
-};
-
-const pageForOld = {
-  $: jest.fn(() => secondClickableElement),
-  $$: jest.fn(() => [
-    secondClickableElement,
-    secondClickableElement,
-    secondClickableElement,
-    secondClickableElement,
-  ]),
-  waitForSelector: jest.fn(mockAsyncFn('waitForSelector')),
-  keyboard: {
-    type: jest.fn(mockAsyncFn('keyboard.type')),
-  },
-  waitForNavigation: jest.fn(mockAsyncFn('waitForNavigation')),
-};
-
 const inputParamsForNew = { date: 'date', to: 'to', from: 'from' };
 const inputParamsForOld: AdditionalArgsType = ['from', 'to', 'date'];
-
-
-// old code
-// eslint-disable-next-line
-type AdditionalArgsType = any[];
-type SingleStep = { stepFn: StepFn, dataForStep: AdditionalArgsType };
-type StepResult = Promise<void | string>;
-export const goByStepsOld = (steps: SingleStep[], page: Page): StepResult => {
-  const initalPromise: StepResult = new Promise((resolve) => resolve());
-  const stepsResPromise = steps.reduce((acc: StepResult, { stepFn, dataForStep }) => {
-    if (acc === initalPromise) {
-      acc = stepFn(page, dataForStep);
-      return acc;
-    }
-
-    acc = acc.then(() => stepFn(page, dataForStep));
-    return acc;
-  }, initalPromise);
-
-  return stepsResPromise;
-};
 
 const oldStep: StepFn = async (page: Page, data: string[]) => {
   const [from, to, date] = data;
@@ -156,30 +77,21 @@ const oldStep: StepFn = async (page: Page, data: string[]) => {
   return result;
 };
 
-const getOldStepsToUse = [oldStep].map((stepFn, index) => {
-  return {
-    stepFn,
-    dataForStep: [inputParamsForOld][index],
-  };
-});
-
-const goByNewSteps = (page: Page) => goBySteps(
-  page,
-  getStepsToUse(s7StepsNew, inputParamsForNew)
-);
-const goByOldSteps = (page: Page) => goByStepsOld(getOldStepsToUse, page);
-
 describe('refactoring steps test', () => {
   describe('should work like before', () => {
     // @ts-ignore
     let oldRes = null;
     // @ts-ignore
     let newRes = null;
+
+    const { pageForNew, firstClickableElement } = createPageForNew();
+    const { pageForOld, secondClickableElement } = createPageForOld();
+
     beforeAll(async () => {
       // @ts-ignore
-      newRes = await goByNewSteps(pageForNew);
+      newRes = await goByNewSteps(pageForNew, s7StepsNew, inputParamsForNew);
       // @ts-ignore
-      oldRes = await goByOldSteps(pageForOld);
+      oldRes = await goByOldSteps(pageForOld, oldStep, inputParamsForOld);
     });
 
     describe('zero step: wait for selector', () => {
