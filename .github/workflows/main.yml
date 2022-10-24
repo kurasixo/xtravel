@@ -23,9 +23,12 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: yarn checkTypes
-      - run: yarn test
-      - name: Publish codecov
-        run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov
+      - run: yarn test:coverage
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/clover.xml
+          name: codecov
+          fail_ci_if_error: true
+          verbose: true
+
+

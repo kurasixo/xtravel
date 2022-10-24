@@ -10,6 +10,7 @@
     "start:debug": "yarn build && NODE_ENV=debug node build/entry.js",
     "checkTypes": "tsc --noEmit -p ./tsconfig.json",
     "test": "jest",
+    "test:coverage": "yarn test --coverage --collectCoverageFrom='src/**/*.ts'",
     "lint": "eslint src"
   },
   "dependencies": {
