@@ -25,7 +25,7 @@ jobs:
       - run: yarn checkTypes
       - run: yarn test
       - name: Publish codecov
-      - run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
