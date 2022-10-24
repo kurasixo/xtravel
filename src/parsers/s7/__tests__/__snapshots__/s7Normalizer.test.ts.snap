@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getS7Normalizer should match snapshot on real data from site "moscow omsk 26 10 2022" 1`] = `
+[
+  {
+    "from_to": [
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 4900,
+          },
+          {
+            "currency": "₽",
+            "value": 7600,
+          },
+          {
+            "currency": "₽",
+            "value": 14150,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 6680,
+          },
+          {
+            "currency": "₽",
+            "value": 9680,
+          },
+          {
+            "currency": "₽",
+            "value": 17130,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 6968,
+          },
+          {
+            "currency": "₽",
+            "value": 11718,
+          },
+          {
+            "currency": "₽",
+            "value": 22353,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 6968,
+          },
+          {
+            "currency": "₽",
+            "value": 11718,
+          },
+          {
+            "currency": "₽",
+            "value": 22353,
+          },
+        ],
+        "transfers": [],
+      },
+    ],
+  },
+]
+`;
+
+exports[`getS7Normalizer should match snapshot on real data from site "moscow omsk 28 10 2022" 1`] = `
+[
+  {
+    "from_to": [
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 6680,
+          },
+          {
+            "currency": "₽",
+            "value": 9680,
+          },
+          {
+            "currency": "₽",
+            "value": 17130,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 14045,
+          },
+          {
+            "currency": "₽",
+            "value": 18145,
+          },
+          {
+            "currency": "₽",
+            "value": 28895,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 14048,
+          },
+          {
+            "currency": "₽",
+            "value": 17898,
+          },
+          {
+            "currency": "₽",
+            "value": 26848,
+          },
+        ],
+        "transfers": [],
+      },
+      {
+        "flights": [],
+        "price": [
+          {
+            "currency": "₽",
+            "value": 11623,
+          },
+          {
+            "currency": "₽",
+            "value": 15273,
+          },
+          {
+            "currency": "₽",
+            "value": 23623,
+          },
+        ],
+        "transfers": [],
+      },
+    ],
+  },
+]
+`;

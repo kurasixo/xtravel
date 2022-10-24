@@ -47,7 +47,7 @@ export const getTransfer = (transferElement: cheerio.Cheerio) => {
 };
 
 export const aeroflotProcessors: Processors<RawRoute> = {
-  each: (_, flight, $) => {
+  each: (_, flight, $): RawRoute => {
     const rootFlight = $(flight);
     const flightsRoute = rootFlight.find(processorSelectors.rootFlightRowSelector);
     const flightsRouteArray = Array.from(flightsRoute);

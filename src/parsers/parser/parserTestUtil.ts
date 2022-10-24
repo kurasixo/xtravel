@@ -1,7 +1,9 @@
+import cheerio from 'cheerio';
+
 import { getStepsToUse } from './utils';
 import { goBySteps } from '../../utils/network/headless/goBySteps';
 import type { Page } from 'puppeteer';
-import type { ParserStepsArguments, StepFn, StepObject } from '../parsers.types';
+import type { ParserStepsArguments, Processors, RawRoute, StepFn, StepObject } from '../parsers.types';
 
 // old code
 // eslint-disable-next-line
@@ -116,3 +118,21 @@ export const goByNewSteps = (
 // eslint-disable-next-line
 export const goByOldSteps = (page: Page, oldStep: StepFn, oldParams: any[]) =>
   goByStepsOld(getOldStepsToUse(oldStep, oldParams), page);
+
+
+export const loadDataAndProcess = (
+  data: string,
+  contentSelector: string,
+  processors: Processors<RawRoute>,
+) => {
+  const dom = cheerio.load(data);
+  const dataBySelectors = dom(contentSelector);
+
+  const res: RawRoute[] = [];
+  dataBySelectors.each((index, element) => {
+    // @ts-ignore
+    res.push(processors.each(index, element, dom));
+  });
+
+  return res;
+};
