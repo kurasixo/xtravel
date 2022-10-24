@@ -1,2 +1,2 @@
 xtravel/src/**.mock.ts linguist-vendored
-xtravel/coverage linguist-vendored
+xtravel/coverage/** linguist-vendored
