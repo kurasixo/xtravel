@@ -1,5 +1,4 @@
-[![codecov.io](https://codecov.io/github/<Your Organization/Acc.>/<YourRepo>/coverage.svg?branch=master)]
-(https://codecov.io/github/<Your Organization/Acc.>/<YourRepo>?branch=master)
+[![codecov](https://codecov.io/gh/kurasixo/xtravel/branch/main/graph/badge.svg?token=M5F9DCVDB5)](https://codecov.io/gh/kurasixo/xtravel)
 
 # TODO:
  - add error handling
